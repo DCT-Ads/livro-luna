@@ -1,0 +1,7 @@
+kdp/chrome-*/
+kdp/**/Cache/
+kdp/**/GPUCache/
+kdp/**/Code Cache/
+kdp/**/ShaderCache/
+**/.git/
+**/*.log
