@@ -189,10 +189,11 @@ const interior = `<!DOCTYPE html>
     .heart { margin: 0; font-size: 22pt; color: #c24b43; }
     .dedication blockquote {
       margin: 0.18in 0 0;
+      max-width: 5.8in;
       font-family: Georgia, "Palatino Linotype", serif;
       font-style: italic;
-      font-size: 22pt;
-      line-height: 1.35;
+      font-size: 18pt;
+      line-height: 1.4;
       color: #234628;
     }
     .coloring img {
@@ -271,9 +272,9 @@ const cover = `<!DOCTYPE html>
     .back blockquote {
       margin: 0.35in 0 0;
       font-style: italic;
-      font-size: 14pt;
+      font-size: 13pt;
       line-height: 1.4;
-      max-width: 18em;
+      max-width: 22em;
     }
     .barcode {
       position: absolute;
