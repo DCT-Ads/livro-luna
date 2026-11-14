@@ -8,7 +8,7 @@ const outDir = path.join(root, "kdp");
 const htmlPath = path.join(root, "index.html");
 const bookHtml = fs.readFileSync(htmlPath, "utf8");
 
-const PAGE_COUNT = 122;
+const PAGE_COUNT = 154; // dedicatória + verso + 38 cenas (história + verso + colorir + verso)
 const PAPER = 0.002252;
 const SPINE = +(PAGE_COUNT * PAPER).toFixed(6);
 const TRIM = 8.5;
@@ -59,14 +59,14 @@ function verse(text) {
 const dedication = bookHtml.match(/<blockquote>([\s\S]*?)<\/blockquote>/)[1].trim();
 
 const scenes = [];
-for (let n = 1; n <= 30; n += 1) {
+for (let n = 1; n <= 38; n += 1) {
   const story = article("pagina-" + n);
   const coloring = article("colorir-" + n);
   scenes.push({
     n,
     poem: field(story, "poem"),
     fala: field(story, "fala"),
-    fim: /<p class="kicker">Fim<\/p>/.test(story),
+    fim: /<p class="kicker">Fim<\/p>|<p class="kicker">FIM<\/p>/i.test(story),
     storyImage: imageSrc(story),
     colorImage: imageSrc(coloring)
   });
