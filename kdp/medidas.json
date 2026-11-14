@@ -1,0 +1,37 @@
+{
+  "trimInches": [
+    8.5,
+    8.5
+  ],
+  "interiorWithBleedInches": [
+    8.625,
+    8.75
+  ],
+  "pages": 122,
+  "paper": "branco, cor standard KDP",
+  "inchesPerPage": 0.002252,
+  "spineInches": 0.274744,
+  "coverWithBleedInches": [
+    17.524744,
+    8.75
+  ],
+  "gutterInches": 0.375,
+  "outsideSafeInches": 0.375,
+  "singleSided": "cada desenho em página ímpar; verso em branco",
+  "files": [
+    {
+      "file": "miolo-luna-kdp.pdf",
+      "pages": 122,
+      "width": 8.625,
+      "height": 8.75,
+      "bytes": 31107233
+    },
+    {
+      "file": "capa-luna-kdp.pdf",
+      "pages": 1,
+      "width": 17.52474402777778,
+      "height": 8.75,
+      "bytes": 686190
+    }
+  ]
+}

@@ -1,0 +1,1944 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Luna e o Quintal das Histórias</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,560;0,9..144,700;1,9..144,560&family=Nunito:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --ink: #3e2a22;
+      --ink-soft: #6d4c3d;
+      --leaf: #2f5d34;
+      --leaf-deep: #234628;
+      --berry: #c24b43;
+      --berry-deep: #a33b34;
+      --gold: #d39a3a;
+      --cream: #fff8ef;
+      --paper: #fffaf4;
+      --blush: #fff1e8;
+    }
+
+    * { box-sizing: border-box; }
+
+    figure { margin: 0; }
+
+    html, body { margin: 0; }
+
+    body {
+      min-height: 100dvh;
+      color: var(--ink);
+      font-family: "Nunito", "Segoe UI", sans-serif;
+      background:
+        radial-gradient(ellipse at 12% 0%, #fff1c9 0, transparent 42%),
+        radial-gradient(ellipse at 100% 100%, #d7ecc2 0, transparent 46%),
+        linear-gradient(180deg, #f7f1e2 0%, #efe4cf 100%);
+    }
+
+    .book {
+      width: min(1100px, calc(100% - 36px));
+      margin: 22px auto 28px;
+    }
+
+    .sheet {
+      display: none;
+      background: var(--paper);
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid rgba(90, 58, 32, 0.14);
+      box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.8) inset,
+        0 22px 40px rgba(78, 48, 22, 0.16);
+    }
+
+    .sheet.active { display: grid; }
+
+    .cover.active {
+      grid-template-rows: auto auto auto;
+    }
+
+    .cover-head {
+      padding: 28px 28px 18px;
+      text-align: center;
+      background:
+        linear-gradient(180deg, #fffdf8 0%, #fff6ea 100%);
+      border-bottom: 1px solid rgba(211, 154, 58, 0.35);
+    }
+
+    .flower {
+      margin: 0;
+      font-size: 1.7rem;
+      line-height: 1;
+    }
+
+    h1 {
+      margin: 8px auto 0;
+      max-width: 16ch;
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 700;
+      font-size: clamp(2.05rem, 5vw, 3.55rem);
+      line-height: 0.96;
+      letter-spacing: -0.02em;
+      color: var(--leaf-deep);
+      text-wrap: balance;
+    }
+
+    .subtitle {
+      margin: 14px auto 0;
+      max-width: 34ch;
+      font-size: clamp(1.02rem, 2.1vw, 1.22rem);
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink-soft);
+    }
+
+    .heroine {
+      margin: 12px 0 0;
+      font-family: "Fraunces", Georgia, serif;
+      font-style: italic;
+      font-weight: 560;
+      font-size: 1.25rem;
+      color: var(--berry);
+    }
+
+    .cover-art,
+    .story-art {
+      background: #e7f3cc;
+      min-width: 0;
+    }
+
+    .cover-art img,
+    .story-art img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .cover-foot,
+    .story-foot {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 14px 18px 16px;
+      background: #fffdf9;
+      border-top: 1px solid rgba(90, 58, 32, 0.08);
+    }
+
+    .pager {
+      margin: 0;
+      font-size: 0.92rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--leaf);
+    }
+
+    button {
+      font-family: inherit;
+      font-weight: 800;
+      font-size: 1rem;
+      color: white;
+      background: var(--berry);
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 20px;
+      cursor: pointer;
+      box-shadow: 0 6px 0 var(--berry-deep);
+    }
+
+    button:hover { background: #b3413a; }
+
+    button:active { transform: translateY(2px); box-shadow: 0 4px 0 var(--berry-deep); }
+
+    button:focus-visible {
+      outline: 3px solid var(--gold);
+      outline-offset: 3px;
+    }
+
+    button.ghost {
+      color: var(--leaf-deep);
+      background: #f3ead8;
+      box-shadow: 0 6px 0 #e2d3b8;
+    }
+
+    button.ghost:hover { background: #eadfcb; }
+
+    .story.active {
+      grid-template-columns: 1.08fr 0.92fr;
+      grid-template-rows: auto auto;
+      align-items: center;
+    }
+
+    .story-art { grid-column: 1; grid-row: 1; }
+
+    .story-text {
+      grid-column: 2;
+      grid-row: 1;
+      min-width: 0;
+      padding: 32px 32px 28px 28px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      background:
+        linear-gradient(180deg, #fffdf9 0%, #fff6ec 100%);
+    }
+
+    .story-text > * {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .kicker {
+      margin: 0 0 16px;
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .poem {
+      margin: 0;
+      font-family: "Fraunces", Georgia, serif;
+      font-weight: 560;
+      font-size: clamp(1.15rem, 1.7vw, 1.42rem);
+      line-height: 1.45;
+      color: var(--ink);
+      overflow-wrap: break-word;
+    }
+
+    .poem + .poem { margin-top: 22px; }
+
+    .fala {
+      margin: 0;
+      padding: 16px 16px 16px 18px;
+      border-radius: 16px;
+      background: var(--blush);
+      border-left: 5px solid var(--berry);
+      font-family: "Nunito", "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.08rem, 1.6vw, 1.28rem);
+      line-height: 1.45;
+      color: var(--leaf-deep);
+      overflow-wrap: break-word;
+    }
+
+    .story-foot { grid-column: 1 / -1; }
+
+    .dedication.active { grid-template-rows: 1fr auto; }
+
+    .dedication-body {
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      text-align: center;
+      padding: 64px 32px 36px;
+      background:
+        radial-gradient(circle at 50% 0%, #fff4d4 0, transparent 46%),
+        #fffaf4;
+    }
+
+    .dedication-body blockquote {
+      margin: 18px 0 0;
+      max-width: 16em;
+      font-family: "Fraunces", Georgia, serif;
+      font-style: italic;
+      font-weight: 560;
+      font-size: clamp(1.7rem, 3.4vw, 2.45rem);
+      line-height: 1.35;
+      color: var(--leaf-deep);
+    }
+
+    .coloring.active {
+      grid-template-rows: auto auto auto;
+      background: #fff;
+    }
+
+    .coloring-head {
+      padding: 18px 22px 4px;
+      text-align: center;
+      background: #fff;
+    }
+
+    .coloring-head .kicker { margin: 0; }
+
+    .coloring-art { background: #fff; min-width: 0; }
+
+    .coloring-art img {
+      width: 100%;
+      height: auto;
+      display: block;
+      background: #fff;
+    }
+
+    .qr-box {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 18px 0 8px;
+      padding: 12px 14px;
+      border-radius: 16px;
+      background: linear-gradient(180deg, #fff8ef 0%, #fff1e0 100%);
+      border: 1px solid rgba(211, 154, 58, 0.35);
+    }
+
+    .qr-box img {
+      flex: 0 0 auto;
+      width: 110px;
+      height: 110px;
+      border-radius: 10px;
+      background: #fff;
+      image-rendering: pixelated;
+    }
+
+    .qr-caption {
+      margin: 0;
+      font-size: 0.98rem;
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink-soft);
+    }
+
+    .qr-caption strong {
+      color: var(--leaf-deep);
+      font-size: 1.08rem;
+    }
+
+    .qr-box--center {
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      margin: 10px 18px 6px;
+    }
+
+    .qr-box--center img {
+      width: 120px;
+      height: 120px;
+    }
+
+    @media (max-width: 820px) {
+      .book { width: min(640px, calc(100% - 20px)); margin: 10px auto 16px; }
+
+      .sheet { border-radius: 16px; }
+
+      .cover-head { padding: 22px 18px 14px; }
+
+      .story.active {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+
+      .story-art { grid-column: 1; grid-row: auto; }
+      .story-text { grid-column: 1; grid-row: auto; padding: 22px 18px 8px; }
+
+      .poem { font-size: 1.2rem; }
+      .fala { font-size: 1.12rem; }
+
+      .cover-foot,
+      .story-foot {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        padding: 12px 14px 14px;
+      }
+
+      .pager { grid-column: 1 / -1; order: -1; text-align: center; }
+
+      button { width: 100%; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      button { transition: none; }
+    }
+
+    @media print {
+      body { background: white; }
+      .book { width: 100%; margin: 0; }
+      .sheet {
+        display: block !important;
+        break-after: page;
+        box-shadow: none;
+        min-height: 0;
+        border: 0;
+      }
+      .cover-foot, .story-foot, button { display: none !important; }
+      .story-art img, .cover-art img { max-height: 420px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="book" id="livro">
+    <article class="sheet cover active" id="capa" aria-label="Abertura do livro">
+      <header class="cover-head">
+        <p class="flower" aria-hidden="true">🌼</p>
+        <h1>Luna e o Quintal das Histórias</h1>
+        <p class="subtitle">Um livro para pequenos corações que amam Jesus e bichinhos</p>
+        <p class="heroine">Luna Begui</p>
+      </header>
+      <figure class="cover-art">
+        <img
+          src="ilustracoes/luna-pagina-1.jpg"
+          alt="Luna, menina de vestido vermelho listrado e cabelos cacheados, de braços abertos no quintal verde, chamando a cachorrinha Lilica, a gata Amora, o gatinho Zé Pretinho e o gatinho Mingau."
+        >
+      </figure>
+      <footer class="cover-foot">
+        <p class="pager">Abertura</p>
+        <button type="button" data-dir="1">Abrir o livro</button>
+      </footer>
+    </article>
+
+    <article class="sheet dedication" id="dedicatoria" aria-label="Dedicatória">
+      <div class="dedication-body">
+        <p class="flower" aria-hidden="true">💛</p>
+        <p class="kicker">Dedicatória</p>
+        <blockquote>Para Luna Begui, que transforma cada dia em uma pequena pregação de amor.</blockquote>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Dedicatória</p>
+        <button type="button" data-dir="1">Começar a história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-1" aria-label="Página 1">
+      <figure class="story-art">
+        <img
+          src="ilustracoes/luna-pagina-1.jpg"
+          alt="Luna no quintal verdinho, cheio de sol, reunindo Lilica, Amora, Zé Pretinho e Mingau para ouvir uma história."
+        >
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 1</p>
+        <p class="poem">
+          No quintal verdinho, cheio de sol,<br>
+          mora uma menina com cachinho de anzol.<br>
+          Luna é seu nome, sapeca e feliz,<br>
+          quem a conhece, do amor nunca mais desdiz!
+        </p>
+        <p class="fala">
+          “Vem, Lilica! Vem, Amora!<br>
+          Zé Pretinho, chegou a hora!<br>
+          Mingau, meu lindo, vem sentar,<br>
+          que a tia Luna vai contar!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 1</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-1" aria-label="Colorir a página 1">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 1</p>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-1.jpg" alt="Desenho para colorir: Luna de braços abertos chamando Lilica, Amora, Zé Pretinho e Mingau no quintal.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-2" aria-label="Página 2">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-2.jpg" alt="Luna sentada na grama com Lilica deitada, Amora encolhida, Mingau no colo e Zé Pretinho saltando.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 2</p>
+        <p class="poem">
+          Lilica chegou correndo, “Au au!”<br>
+          Rabinho feliz, nem um pouco devagar!<br>
+          Amora se espreguiçou, “Miauu!” baixinho,<br>
+          e sentou-se bem pertinho.
+        </p>
+        <p class="fala">
+          Zé Pretinho deu um salto — “Miau!”<br>
+          Mingau se encolheu, manhoso e sem pressa,<br>
+          Todos sentados na grama fresca,<br>
+          prontos pra ouvir a história começa!
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 2</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-2" aria-label="Colorir a página 2">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 2</p>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-2.jpg" alt="Desenho para colorir: Luna sentada na grama, com os quatro bichinhos ao redor.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-3" aria-label="Página 3">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-3.jpg" alt="Luna conta uma história, e no pensamento aparece um cesto com um bebê flutuando no rio. Os bichinhos escutam.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 3</p>
+        <p class="poem">
+          “Era uma vez,” Luna começou,<br>
+          “um menininho que no cesto flutuou!<br>
+          No rio, escondidinho, um bebê chorou,<br>
+          e uma princesa o encontrou!”
+        </p>
+        <p class="fala">
+          Lilica latiu, “Au au! Que medo!”<br>
+          Amora abriu os olhos bem redondos de segredo.<br>
+          “Não tenham medo, meus amores,<br>
+          Deus cuidava daquele bebê com muitos amores!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 3</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-3" aria-label="Colorir a página 3">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 3</p>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-3.jpg" alt="Desenho para colorir: Luna conta a história do bebê no cesto, com os bichinhos escutando.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-4" aria-label="Página 4">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-4.jpg" alt="Luna representa a história de Davi, e no pensamento um pastorzinho enfrenta um gigante. Os bichinhos assistem.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 4</p>
+        <p class="poem">
+          Zé Pretinho perguntou, “Miau, e depois?”<br>
+          Luna sorriu e respondeu: “Agora dois!<br>
+          Um pastorzinho pequeno e bem corajoso,<br>
+          enfrentou um gigante enorme e perigoso!”
+        </p>
+        <p class="fala">
+          “Com uma pedrinha e muita fé,<br>
+          Davi venceu! Olha só, Zé!<br>
+          Deus está sempre do nosso lado,<br>
+          mesmo quando parece tudo errado!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 4</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-4" aria-label="Colorir a página 4">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 4</p>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-4.jpg" alt="Desenho para colorir: Luna e o pensamento do pastorzinho diante do gigante, com os bichinhos ao redor.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-5" aria-label="Página 5">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-5.jpg" alt="Luna abraça Mingau e imagina a arca de Noé, com leão, girafa, elefante e passarinhos. Lilica, Amora e Zé Pretinho descansam perto.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 5</p>
+        <p class="poem">
+          Mingau se aconchegou bem juntinho,<br>
+          “Conta mais, Luna, devagarzinho!”<br>
+          “Tinha um barco enorme, de madeira e amor,<br>
+          onde cada bichinho tinha seu lugar e calor!”
+        </p>
+        <p class="fala">
+          “Leão, girafa, elefante e passarinho,<br>
+          todos juntos, bem quietinho!<br>
+          Noé cuidou de cada um com carinho,<br>
+          assim como eu cuido de vocês, meu rebanhinho!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 5</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-5" aria-label="Colorir a página 5">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 5</p>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-5.jpg" alt="Desenho para colorir: Luna abraça um gatinho e imagina a arca com os animais.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-6" aria-label="Página 6">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-6.jpg" alt="No fim da tarde, Luna imagina o menino Jesus na manjedoura. Amora boceja e os outros bichinhos dormem na grama.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 6</p>
+        <p class="poem">
+          De repente, Amora bocejou, “Miau...”<br>
+          Luna riu e disse: “Calma, já vou!<br>
+          Só mais uma, a mais linda de todas,<br>
+          sobre um bebezinho numa manjedoura!”
+        </p>
+        <p class="fala">
+          “Nasceu numa noite de estrelas brilhantes,<br>
+          rodeado de pastores e anjos cantantes!<br>
+          Jesus veio ao mundo, pequeno e sagrado,<br>
+          pra nos ensinar amor, meu rebanho adorado!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 6</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-6" aria-label="Colorir a página 6">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 6</p>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-6.jpg" alt="Desenho para colorir: Luna e os bichinhos sonolentos, com o presépio no pensamento.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-7" aria-label="Página 7">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-7.jpg" alt="Luna abraça Lilica, Amora, Zé Pretinho e Mingau juntos, e Lilica lambe o rosto dela.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 7</p>
+        <p class="poem">
+          “E sabem o que mais, meus amores?<br>
+          Jesus ama vocês, de todas as cores!<br>
+          Cachorrinha, gatinhos, cada um especial,<br>
+          no coração de Deus, ninguém é igual!”
+        </p>
+        <p class="fala">
+          Lilica lambeu seu rosto, “Au au, obrigada!”<br>
+          Zé Pretinho ronronou, feliz e animada.<br>
+          Luna abraçou forte seu rebanhinho,<br>
+          no quintal verde, cheio de carinho.
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 7</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-7" aria-label="Colorir a página 7">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 7</p>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-7.jpg" alt="Desenho para colorir: Luna abraça os quatro bichinhos na grama.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Última história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-8" aria-label="Página 8">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-8.jpg" alt="Luna dorme na grama ao pôr do sol, aninhada com Lilica, Amora, Zé Pretinho e Mingau.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 8</p>
+        <p class="poem">
+          O sol se despedia, lá no horizonte,<br>
+          Luna bocejou, pequena e sonolenta ponte.<br>
+          “Amanhã eu conto mais, prometo, vejam vocês,<br>
+          mais uma história, pra sempre eu contarei!”
+        </p>
+        <p class="fala">
+          Os bichinhos se aninharam, bem satisfeitos,<br>
+          corações cheios de amor e afeto.<br>
+          E assim terminava mais um dia feliz,<br>
+          no quintal da Luna, onde o amor nunca finaliza.
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 8</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-8" aria-label="Colorir a página 8">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 8</p>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-8.jpg" alt="Desenho para colorir: Luna e os quatro bichinhos dormindo juntos na grama, com o sol se pondo.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-9" aria-label="Página 9">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-9.jpg" alt="Um dinossauro bebê verde espreita no quintal, e Luna sorri enquanto Lilica, Amora, Zé Pretinho e Mingau se assustam.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 9</p>
+        <p class="poem">
+          De repente, um barulho estranho — “Blem! Blem!”<br>
+          Vindo do mato, bem baixinho, quem vem?<br>
+          Um bichinho verde, grandinho e assustado,<br>
+          Era um Dino bebê, sozinho e cansado!
+        </p>
+        <p class="fala">
+          Lilica latiu, Amora bufou de susto,<br>
+          Zé Pretinho se escondeu, sem ajuste!<br>
+          Mas Luna sorriu e disse: “Calma, meu bem,<br>
+          aqui no quintal, todos somos do bem!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 9</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-9" aria-label="Colorir a página 9">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 9</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-9.jpg" alt="Desenho para colorir: o Dino bebê chega no quintal da Luna.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-10" aria-label="Página 10">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-10.jpg" alt="Luna segura a patinha do Dino com cuidado, e os bichinhos observam.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 10</p>
+        <p class="poem">
+          “Qual seu nome, bichinho tão grandão?”<br>
+          “Dino,” ele disse, com medo no coração.<br>
+          “Eu fugi de casa, não quis obedecer,<br>
+          e agora sozinho, não sei o que fazer!”
+        </p>
+        <p class="fala">
+          Luna pegou sua patinha com cuidado,<br>
+          “Fica comigo, você errou ter fugido!<br>
+          Mas se arrependeu, e prometeu não fazer mais isso,<br>
+          tá tudo bem, calma.<br>
+          Só precisa aprender a ouvir e confiar,<br>
+          que os pais sempre cuidam, sem nunca faltar!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 10</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-10" aria-label="Colorir a página 10">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 10</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-10.jpg" alt="Desenho para colorir: Luna segura a patinha do Dino.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-11" aria-label="Página 11">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-11.jpg" alt="Dino baixa a cabeça numa promessa, e Luna bate palmas enquanto os bichinhos se aproximam.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 11</p>
+        <p class="poem">
+          Dino baixou a cabeça, soltou um suspiro,<br>
+          “Vou mudar,” ele disse, “eu prometo e confirmo!<br>
+          Vou ouvir meus pais, com amor e respeito,<br>
+          Deus vai me ajudar, eu sinto no peito!”
+        </p>
+        <p class="fala">
+          Luna bateu palminhas, cheia de alegria,<br>
+          “Agora sim, Dino, você tem uma família!<br>
+          Vem sentar com a gente, no nosso cantinho,<br>
+          e ouvir as histórias do meu coraçãozinho!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 11</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-11" aria-label="Colorir a página 11">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 11</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-11.jpg" alt="Desenho para colorir: Dino promete mudar e Luna bate palmas.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-12" aria-label="Página 12">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-12.jpg" alt="Luna sentada no meio da roda, com Lilica, Amora, Zé Pretinho, Mingau e o Dino escutando.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 12</p>
+        <p class="poem">
+          Agora o rebanho tinha mais um amigo,<br>
+          Dino sentado junto, bem quietinho.<br>
+          Lilica, Amora, Zé, Mingau e o novo irmão,<br>
+          todos esperando mais uma lição!
+        </p>
+        <p class="fala">
+          “Hoje a história,” Luna avisou sorrindo,<br>
+          “é a mais linda de todas, vou já contando!<br>
+          Sobre um bebezinho que o mundo mudou,<br>
+          Jesus, o Filho de Deus, que por nós chegou!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 12</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-12" aria-label="Colorir a página 12">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 12</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-12.jpg" alt="Desenho para colorir: a roda de histórias com o Dino.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-13" aria-label="Página 13">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-13.jpg" alt="Luna conta que um anjo veio até Maria, e o Dino e os bichinhos escutam admirados.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 13</p>
+        <p class="poem">
+          “Um anjo brilhante veio até Maria,<br>
+          com uma notícia cheia de alegria!<br>
+          ‘Você vai ter um bebê muito especial,<br>
+          o próprio Filho de Deus, sem igual!’”
+        </p>
+        <p class="fala">
+          Dino arregalou os olhos, “Nossa, que demais!”<br>
+          Mingau se encolheu, ronronando em paz.<br>
+          “Maria disse sim, com um coração sereno,<br>
+          pronta pra viver aquele momento pequeno!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 13</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-13" aria-label="Colorir a página 13">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 13</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-13.jpg" alt="Desenho para colorir: o anjo aparece para Maria.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-14" aria-label="Página 14">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-14.jpg" alt="No pensamento da Luna, o menino Jesus nasce numa manjedoura, e os bichinhos e o Dino descansam sob as estrelas.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 14</p>
+        <p class="poem">
+          “Numa noite fria, numa cidadezinha,<br>
+          nasceu o bebê mais lindo, numa mangedourinha!<br>
+          Sem berço de ouro, sem travesseiro de pluma,<br>
+          só muito amor, debaixo da lua!”
+        </p>
+        <p class="fala">
+          As estrelas brilhavam, o céu sorria,<br>
+          Era a noite mais linda que o mundo já tinha!<br>
+          “Jesus,” Luna sussurrou com carinho,<br>
+          “chegou pra ser nosso melhor amiguinho!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 14</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-14" aria-label="Colorir a página 14">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 14</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-14.jpg" alt="Desenho para colorir: o nascimento de Jesus na manjedoura.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-15" aria-label="Página 15">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-15.jpg" alt="Luna imagina os pastores e os anjos cantando, e os bichinhos e o Dino se admiram.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 15</p>
+        <p class="poem">
+          “Pastores no campo, cuidando as ovelhinhas,<br>
+          viram o céu se abrir, cheio de luzinhas!<br>
+          Anjos cantando: ‘Gloria! Paz e amor!’<br>
+          Nasceu o Salvador, o Rei de valor!”
+        </p>
+        <p class="fala">
+          Lilica latiu, “Au au, que alegria!”<br>
+          Amora ronronou baixinho, cheia de magia.<br>
+          “Eles correram pra ver o bebê encantado,<br>
+          e encontraram tudo exatamente como foi anunciado!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 15</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-15" aria-label="Colorir a página 15">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 15</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-15.jpg" alt="Desenho para colorir: pastores e anjos no campo.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-16" aria-label="Página 16">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-16.jpg" alt="Luna imagina os sábios nos camelos seguindo a estrela, e o Dino observa com os bichinhos.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 16</p>
+        <p class="poem">
+          “Três sábios viram uma estrela brilhar,<br>
+          e seguiram seu rumo, sem nunca parar!<br>
+          Levaram presentes de ouro e perfume,<br>
+          pro Rei pequenininho, cheio de lume!”
+        </p>
+        <p class="fala">
+          Zé Pretinho perguntou: “Miau, chegaram lá?”<br>
+          “Chegaram sim, Zé, numa noite especial!<br>
+          Encontraram Jesus, com Maria e José,<br>
+          e se ajoelharam, cheios de fé!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 16</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-16" aria-label="Colorir a página 16">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 16</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-16.jpg" alt="Desenho para colorir: os sábios seguindo a estrela.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-17" aria-label="Página 17">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-17.jpg" alt="Luna imagina Jesus menino ajudando José na carpintaria, e o Dino escuta com atenção.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 17</p>
+        <p class="poem">
+          “Jesus cresceu forte, ajudando seu pai,<br>
+          serrando madeira, martelo e vai-vai!<br>
+          Obediente e sábio, trabalhava contente,<br>
+          um exemplo pra toda a gente!”
+        </p>
+        <p class="fala">
+          Dino escutou atento, pensando um instante,<br>
+          “Eu também vou ajudar, igual ao Jesus gigante!<br>
+          Vou obedecer, trabalhar com alegria,<br>
+          e aprender um pouco mais cada dia!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 17</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-17" aria-label="Colorir a página 17">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 17</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-17.jpg" alt="Desenho para colorir: Jesus menino na carpintaria.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-18" aria-label="Página 18">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-18.jpg" alt="Luna imagina Jesus acalmando o mar, e Mingau e os outros se aproximam.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 18</p>
+        <p class="poem">
+          “Um dia o mar ficou bravo e assustador,<br>
+          ondas gigantes, trovão com terror!<br>
+          Mas Jesus se levantou, calmo e sereno,<br>
+          ‘Paz!’ Ele disse, e tudo ficou pequeno!”
+        </p>
+        <p class="fala">
+          Mingau tremeu um pouquinho, “Miau, que medo!”<br>
+          “Não precisa, Mingau, Jesus sempre no comando!<br>
+          Ele cuida de nós, em cada tempestade,<br>
+          nos dando paz, amor e segurança!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 18</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-18" aria-label="Colorir a página 18">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 18</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-18.jpg" alt="Desenho para colorir: Jesus acalma o mar.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-19" aria-label="Página 19">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-19.jpg" alt="Luna imagina Jesus abençoando os pães e os peixes, e Lilica e os outros se admiram.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 19</p>
+        <p class="poem">
+          “Uma multidão enorme, cansada e com fome,<br>
+          só tinha cinco pães e dois peixinhos, imagine!<br>
+          Jesus agradeceu, partiu com as mãos,<br>
+          e alimentou milhares, sem faltar nem um grão!”
+        </p>
+        <p class="fala">
+          Lilica abanou o rabo, “Au au, que incrível!”<br>
+          “É, Lilica, com Jesus tudo é possível!<br>
+          Ele multiplica o pouco que a gente tem,<br>
+          e cuida de cada um com muito bem!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 19</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-19" aria-label="Colorir a página 19">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 19</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-19.jpg" alt="Desenho para colorir: os pães e os peixes.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+    <article class="sheet story" id="pagina-20" aria-label="Página 20">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-20.jpg" alt="Luna imagina Jesus tocando os olhos de um homem, e Amora e os outros olham admirados.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 20</p>
+        <p class="poem">
+          “Tinha um homenzinho que nunca tinha visto,<br>
+          nem o céu azul, nem um sorriso bonito.<br>
+          Jesus tocou seus olhos, com muito amor,<br>
+          e ele viu o mundo, pela primeira vez, em cor!”
+        </p>
+        <p class="fala">
+          Amora abriu bem grande os olhinhos azuis,<br>
+          “Miau, que coisa linda, cheia de luz!”<br>
+          “Jesus cura corações, cura os olhos também,<br>
+          Ele é tão poderoso, e nos ama tão bem!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 20</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-20" aria-label="Colorir a página 20">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 20</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-20.jpg" alt="Desenho para colorir: Jesus toca os olhos do homem.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-21" aria-label="Página 21">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-21.jpg" alt="Luna imagina Jesus rodeado de crianças, e o Dino sorri com os bichinhos.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 21</p>
+        <p class="poem">
+          “As crianças corriam pra perto de Jesus,<br>
+          mas alguns diziam: ‘Saiam, sem abusos!’<br>
+          Jesus sorriu e disse, com voz tão mansa,<br>
+          ‘Deixem vir! Delas é o Reino e a esperança!’”
+        </p>
+        <p class="fala">
+          Dino se aproximou, feliz e sorridente,<br>
+          “Então eu também posso, mesmo sendo diferente?”<br>
+          “Claro, Dino! Jesus ama cada criaturinha,<br>
+          seja menina, bichinho ou dinossaurinho!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 21</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-21" aria-label="Colorir a página 21">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 21</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-21.jpg" alt="Desenho para colorir: Jesus acolhe as crianças.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-22" aria-label="Página 22">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-22.jpg" alt="Luna imagina Jesus no jumentinho, com o povo jogando flores, e o Dino comemora.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 22</p>
+        <p class="poem">
+          “Jesus entrou numa cidade chamada Jerusalém,<br>
+          montado num jumentinho manso e tão além!<br>
+          O povo gritava, agitando as mãozinhas,<br>
+          jogando flores e folhas verdinhas!”
+        </p>
+        <p class="fala">
+          “Viva o Rei! Viva o Filho de Deus!” gritavam todos, erguendo os véus.<br>
+          Dino bateu o rabo de alegria,<br>
+          “Que festa linda, cheia de harmonia!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 22</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-22" aria-label="Colorir a página 22">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 22</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-22.jpg" alt="Desenho para colorir: a entrada em Jerusalém.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-23" aria-label="Página 23">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-23.jpg" alt="Luna imagina Jesus à mesa com os amigos, e Mingau e o Dino escutam quietos.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 23</p>
+        <p class="poem">
+          “Jesus se sentou pra jantar com seus amigos,<br>
+          uma mesa cheia de pão e carinho antigo.<br>
+          ‘Lembrem de mim,’ Ele disse com amor,<br>
+          ‘sempre que comerem, com todo o calor!’”
+        </p>
+        <p class="fala">
+          Mingau se aconchegou, ouvindo com cuidado,<br>
+          “Que jantar tão especial, tão bem guardado!”<br>
+          “É, Mingau, foi a última ceia dos amigos,<br>
+          um momento de amor, mesmo com perigos.”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 23</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-23" aria-label="Colorir a página 23">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 23</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-23.jpg" alt="Desenho para colorir: Jesus partilha o pão com os amigos.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-24" aria-label="Página 24">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-24.jpg" alt="Luna imagina Jesus orando num jardim à noite, e os bichinhos ficam quietos ao lado dela.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 24</p>
+        <p class="poem">
+          “Naquela noite, Jesus foi orar num jardim,<br>
+          sozinho e triste, perto de um jardim sem fim.<br>
+          ‘Pai, me ajuda,’ Ele pediu com tanto amor,<br>
+          pronto a fazer tudo, mesmo com dor.”
+        </p>
+        <p class="fala">
+          Luna ficou quietinha, com olhos brilhando,<br>
+          “Jesus foi tão forte, mesmo se sentindo mal.<br>
+          Ele nos ensinou que podemos confiar,<br>
+          mesmo quando é difícil, Deus vai nos guiar.”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 24</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-24" aria-label="Colorir a página 24">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 24</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-24.jpg" alt="Desenho para colorir: Jesus ora no jardim.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-25" aria-label="Página 25">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-25.jpg" alt="Luna imagina uma cruz simples sobre uma colina ao pôr do sol, e o Dino fica quietinho com os bichinhos.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 25</p>
+        <p class="poem">
+          Luna ficou séria, com a vozinha mansa,<br>
+          “Jesus foi levado, sem nenhuma chance.<br>
+          Mas Ele aceitou, com amor tão grande,<br>
+          pra salvar todo mundo, não importa onde!”
+        </p>
+        <p class="fala">
+          Dino baixou a cabecinha, triste e quieto,<br>
+          “Isso me deixa com o coração apertadinho.”<br>
+          “Eu sei, meu amor,” Luna disse com carinho,<br>
+          “mas espera só, tem mais um finalzinho!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 25</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-25" aria-label="Colorir a página 25">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 25</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-25.jpg" alt="Desenho para colorir: uma cruz simples na colina.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-26" aria-label="Página 26">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-26.jpg" alt="Luna imagina um túmulo de pedra pela manhã, e Amora e os outros ficam pensativos.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 26</p>
+        <p class="poem">
+          “Colocaram Jesus num túmulo de pedra,<br>
+          uma pedra bem grande, pesada e enorme.<br>
+          Os amigos choraram, com o coração partido,<br>
+          pensando que tudo tinha sido perdido.”
+        </p>
+        <p class="fala">
+          Amora deitou a cabeça, triste e manhosa,<br>
+          “Miau, que tristeza, isso dói, isso pesa.”<br>
+          “Espera, Amora,” Luna sussurrou baixinho,<br>
+          “a história não acabou, tem mais um caminho!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 26</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-26" aria-label="Colorir a página 26">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 26</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-26.jpg" alt="Desenho para colorir: o túmulo de pedra.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-27" aria-label="Página 27">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-27.jpg" alt="Luna imagina o túmulo vazio e um anjo, e Lilica, Zé Pretinho e o Dino pulam de alegria.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 27</p>
+        <p class="poem">
+          No terceiro dia, de manhãzinha cedo,<br>
+          a pedra rolou! Não tinha mais medo!<br>
+          Um anjo brilhante disse: “Não chorem mais,<br>
+          Jesus ressuscitou! Ele está vivo, rapaz!”
+        </p>
+        <p class="fala">
+          Lilica saltou, “Au au, que alegria!”<br>
+          Zé Pretinho rodopiou, cheio de magia!<br>
+          “Jesus venceu a morte, pra sempre e além,<br>
+          porque Ele nos ama, e isso nunca tem fim!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 27</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-27" aria-label="Colorir a página 27">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 27</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-27.jpg" alt="Desenho para colorir: o túmulo vazio e o anjo.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-28" aria-label="Página 28">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-28.jpg" alt="Luna imagina Jesus vivo abraçando os amigos, e o rebanho comemora no quintal.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 28</p>
+        <p class="poem">
+          Jesus apareceu, vivo e sorridente,<br>
+          abraçou seus amigos, feliz e contente!<br>
+          “Eu estarei com vocês, sempre, de verdade,<br>
+          cuidando de todos, com muita saudade!”
+        </p>
+        <p class="fala">
+          Mingau ronronou, Dino bateu o rabão,<br>
+          “Que história mais linda, direto do coração!”<br>
+          Luna abraçou forte seu rebanhinho inteiro,<br>
+          “Jesus está vivo! Esse é o final mais verdadeiro!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 28</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-28" aria-label="Colorir a página 28">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 28</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-28.jpg" alt="Desenho para colorir: Jesus vivo abraça os amigos.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-29" aria-label="Página 29">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-29.jpg" alt="Luna abraça o Dino, rodeada por Lilica, Amora, Zé Pretinho e Mingau.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 29</p>
+        <p class="poem">
+          Dino se levantou, com o coração cheio,<br>
+          “Vou contar pra floresta, sem nenhum receio!<br>
+          Vou ser obediente, gentil e amoroso,<br>
+          e falar de Jesus, pra todos, orgulhoso!”
+        </p>
+        <p class="fala">
+          Luna sorriu, abraçando seu novo irmão,<br>
+          “Agora o rebanho tem mais um coração!<br>
+          Lilica, Amora, Zé, Mingau e você, Dino,<br>
+          somos uma família, desse jeitinho fofinho!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 29</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-29" aria-label="Colorir a página 29">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 29</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-29.jpg" alt="Desenho para colorir: Luna abraça o Dino com os bichinhos.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Última história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-30" aria-label="Página 30">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-30.jpg" alt="Luna dorme na grama ao pôr do sol, aninhada com Lilica, Amora, Zé Pretinho, Mingau e o Dino.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 30</p>
+        <p class="poem">
+          O sol se despedia, lá no horizonte,<br>
+          Luna bocejou, pequena e sonolenta ponte.<br>
+          Seis amiguinhos agora, cheios de amor,<br>
+          dormindo juntinhos, sem nenhuma dor.
+        </p>
+        <p class="fala">
+          “Amanhã eu conto mais, prometo, vejam vocês,<br>
+          mais uma história, pra sempre eu contarei!”<br>
+          E assim terminava mais um dia feliz,<br>
+          no quintal da Luna, onde o amor nunca finaliza.
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 30</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-30" aria-label="Colorir a página 30">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 30</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-30.jpg" alt="Desenho para colorir: Luna e os cinco amigos dormindo juntos no quintal.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-31" aria-label="Página 31">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-31.jpg" alt="Luna dorme aninhada com Lilica, Mingau, Zé Pretinho e Amora sob a luz suave da lua.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 31 · A Noite Tranquila</p>
+        <p class="poem">
+          Depois de um dia cheio de aventura e amor,<br>
+          Luna bocejou, cansadinha, com todo o fervor.<br>
+          Lilica, Zé Pretinho, Amora e Mingau também,<br>
+          se aconchegaram juntinhos, em paz, sem ninguém.
+        </p>
+        <p class="fala">
+          A lua entrou pela janela, macia e clarinha,<br>
+          e o sono chegou, doce como uma cantiga.<br>
+          No quintal das histórias, o silêncio embalar,<br>
+          a turminha dormiu, pronta pra sonhar.
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 31</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-31" aria-label="Colorir a página 31">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 31</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-31.jpg" alt="Desenho para colorir: Luna e a turminha dormindo juntos à noite.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-32" aria-label="Página 32">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-32.jpg" alt="Luna e os bichinhos olham para o céu com rostinhos tristes; Amora e Mingau choram.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 32 · Jesus Precisa Subir ao Céu</p>
+        <p class="poem">
+          Luna acordou com o sol a brilhar,<br>
+          mas algo diferente ia acontecer, vai notar.<br>
+          Jesus, o Ressuscitado, precisava subir,<br>
+          voltar pro Pai, no céu, e por lá residir.
+        </p>
+        <p class="fala">
+          Amora chorou, Mingau fungou também,<br>
+          “Ele vai embora, mas volta, meu bem!”<br>
+          Lilica lambeu a mãozinha da Luna, com carinho,<br>
+          e Zé Pretinho miou baixinho: “Confia, pequenininho.”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 32</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-32" aria-label="Colorir a página 32">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 32</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-32.jpg" alt="Desenho para colorir: Luna e a turminha olhando para o céu, tristes.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-33" aria-label="Página 33">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-33.jpg" alt="Nayara Rosa, Ariél com Ellóa e Matheus chegam ao quintal; Luna corre para abraçá-los.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 33 · A Chegada da Família</p>
+        <p class="poem">
+          De repente, no quintal, uma vozinha soou:<br>
+          “Luna, minha irmã!” — e Nayara Rosa chegou!<br>
+          Ariél vinha sorrindo, com Ellóa no colo,<br>
+          e Matheus, o irmãozinho, trouxe um abraço fofo.
+        </p>
+        <p class="fala">
+          Luna correu feliz, de braços bem abertos,<br>
+          a turminha lateu, miou, saltando entre os afetos.<br>
+          “Viemos consolar, com carinho e canção,<br>
+          porque a família chega e aquece o coração!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 33</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-33" aria-label="Colorir a página 33">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 33</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-33.jpg" alt="Desenho para colorir: a família se encontra no quintal da Luna.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-34" aria-label="Página 34">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-34.jpg" alt="Nayara Rosa canta Curado Para Curar; Ariél toca violão; Luna, Ellóa, Matheus, Samuel, Gabriel e a turminha ouvem emocionados.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 34 · O Louvor que Cura</p>
+        <p class="poem">
+          Nayara Rosa cantou, voz doce e forte,<br>
+          “Louvor Curado para Curar” — abrindo a porta!<br>
+          As notas subiram, tocando o coração,<br>
+          e a tristeza foi embora, dando lugar à canção.
+        </p>
+        <p class="fala">
+          Luna, Ariél, Ellóa, Matheus, Samuel, Gabriel e a turminha,<br>
+          fecharam os olhos, sentindo a melodia divina.<br>
+          O louvor curou a saudade, e os encheu da Presença de DEUS,<br>
+          e o quintal inteiro brilhou, este louvor nasceu dos céus!
+        </p>
+        <div class="qr-box" aria-label="QR Code Curado Para Curar">
+          <img src="ilustracoes/qr-curado-para-curar.png" alt="QR Code da música Curado Para Curar, de Nayara Rosa" width="110" height="110">
+          <p class="qr-caption"><strong>Curado Para Curar</strong><br>Nayara Rosa · aponte a câmera e ouça</p>
+        </div>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 34</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-34" aria-label="Colorir a página 34">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 34</p>
+        <p class="subtitle" style="margin:8px auto 0;font-size:0.95rem;max-width:36ch">Aponte o celular no QR Code e ouça <em>Curado Para Curar</em>, de Nayara Rosa!</p>
+        <div class="qr-box qr-box--center" style="margin:12px auto 8px;max-width:280px" aria-label="QR Code Curado Para Curar">
+          <img src="ilustracoes/qr-curado-para-curar.png" alt="QR Code da música Curado Para Curar, de Nayara Rosa" width="120" height="120">
+          <p class="qr-caption"><strong>Curado Para Curar</strong> · Nayara Rosa</p>
+        </div>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-34.jpg" alt="Desenho para colorir: Nayara canta e todos ouvem emocionados.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-35" aria-label="Página 35">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-35.jpg" alt="Grande abraço coletivo: Luna, Nayara, Ariél, Ellóa, Matheus, Gabriel e a turminha.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 35 · O Abraço de Todos</p>
+        <p class="poem">
+          No meio da música, um abraço se formou:<br>
+          Luna, Nayara, Ariél, Ellóa e Matheus — que amor!<br>
+          Lilica, Zé Pretinho, Amora e Mingau no meio,<br>
+          um laço de carinho, quentinho como um ninho.
+        </p>
+        <p class="fala">
+          Todos cantavam juntos, sorrindo sem medo,<br>
+          o louvor curava, trazendo consolo e aconchego.<br>
+          “Somos família”, sussurrou Luna, feliz,<br>
+          “e o amor de Jesus nunca deixa a gente sozinho, nunca!”
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 35</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-35" aria-label="Colorir a página 35">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 35</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-35.jpg" alt="Desenho para colorir: o grande abraço de todos no quintal.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-36" aria-label="Página 36">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-36.jpg" alt="Os anjos Miguel e Gabriel descem do céu em um feixe de luz suave.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 36 · Os Anjos Descem do Céu</p>
+        <p class="poem">
+          De repente, do céu, dois anjinhos desceram,<br>
+          Miguel, pequenino, e Gabriel vieram.<br>
+          “Jesus subiu às nuvens, como vocês viram,<br>
+          e ao lado de Deus Pai, num grande Trono branco, ELE se assentou”
+        </p>
+        <p class="fala">
+          Miguel, de só dois aninhos, parecendo um indiozinho<br>
+          e Gabriel, de bata branca e auréola nos caminhos.<br>
+          Todos olharam maravilhados, sem falar,<br>
+          enquanto a luz dourada vinha do céu a brilhar.
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 36</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-36" aria-label="Colorir a página 36">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 36</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-36.jpg" alt="Desenho para colorir: Miguel e Gabriel descendo do céu.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Próxima história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-37" aria-label="Página 37">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-37.jpg" alt="Luninha de pé com olhos castanhos, Samuca amiguinho loirinho ao lado, Nayara, Ariél com Ellóa de olhos azuis, Matheus, Gabriel, anjos Miguel e Gabriel, e a turminha; Mingau de olhos azuis.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 37 · A Promessa Dele</p>
+        <p class="poem">
+          “Ele foi preparar um lugar especial,<br>
+          e um dia virá nos buscar, sem igual!<br>
+          Fiquem em paz, com fé no coração,<br>
+          Jesus vai voltar, essa é a promessa, então!”
+        </p>
+        <p class="fala">
+          Luna apertou a mão no peito, cheia de esperança,<br>
+          Nayara, Ariél, Ellóa, Matheus, Gabriel e Samuca, na mesma dança.<br>
+          Os anjinhos sorriram, a turminha também,<br>
+          e a paz de Jesus abraçou cada um, amém!
+        </p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 37</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-37" aria-label="Colorir a página 37">
+      <header class="coloring-head"><p class="kicker">Para colorir · Página 37</p></header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-37.jpg" alt="Desenho para colorir: todos com as mãos no coração sob a luz dourada.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Colorir</p>
+        <button type="button" data-dir="1">Última história</button>
+      </footer>
+    </article>
+
+    <article class="sheet story" id="pagina-38" aria-label="Página 38">
+      <figure class="story-art">
+        <img src="ilustracoes/luna-cena-38.jpg" alt="Jesus no cavalo branco desce sobre as nuvens; abaixo, a Grande Ceia com todos os personagens.">
+      </figure>
+      <div class="story-text">
+        <p class="kicker">Página 38 · A Grande Volta do Rei</p>
+        <p class="poem">
+          E eis que um dia, no céu, apareceu,<br>
+          montado em cavalo branco, o próprio Rei dos Céus!<br>
+          Cabelos de neve, bata vermelha a brilhar,<br>
+          cinturão de ouro: “Rei dos Reis”, pra todos ler e amar.
+        </p>
+        <p class="fala">
+          Desceu sobre as nuvens, pousou no ar,<br>
+          uma mesa branca e dourada, prontinha pra se armar.<br>
+          Todos se sentaram, em festa e amor — Luna, Nayara, Ariél, Ellóa,<br>
+          Matheus, Gabriel, anjos, Samuca e amigos FORTEENS — na Grande Ceia, ao lado do Senhor!
+        </p>
+        <div class="qr-box" aria-label="QR Code Cordas de Amor">
+          <img src="ilustracoes/qr-cordas-de-amor.png" alt="QR Code da música Cordas de Amor, de Nayara Rosa" width="110" height="110">
+          <p class="qr-caption"><strong>Cordas de Amor</strong><br>Nayara Rosa · aponte a câmera e ouça</p>
+        </div>
+        <p class="kicker">FIM</p>
+      </div>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">Página 38</p>
+        <button type="button" data-dir="1">Colorir</button>
+      </footer>
+    </article>
+
+    <article class="sheet coloring" id="colorir-38" aria-label="Colorir a página 38">
+      <header class="coloring-head">
+        <p class="kicker">Para colorir · Página 38 · FIM</p>
+        <p class="subtitle" style="margin:8px auto 0;font-size:0.95rem;max-width:36ch">Aponte o celular no QR Code e ouça <em>Cordas de Amor</em>, de Nayara Rosa!</p>
+        <div class="qr-box qr-box--center" style="margin:12px auto 8px;max-width:280px" aria-label="QR Code Cordas de Amor">
+          <img src="ilustracoes/qr-cordas-de-amor.png" alt="QR Code da música Cordas de Amor, de Nayara Rosa" width="120" height="120">
+          <p class="qr-caption"><strong>Cordas de Amor</strong> · Nayara Rosa</p>
+        </div>
+      </header>
+      <figure class="coloring-art">
+        <img src="ilustracoes/luna-colorir-38.jpg" alt="Desenho para colorir: Jesus no cavalo branco e a Grande Ceia com todos.">
+      </figure>
+      <footer class="story-foot">
+        <button type="button" class="ghost" data-dir="-1">Voltar</button>
+        <p class="pager">FIM</p>
+        <button type="button" data-go="0">Voltar à capa</button>
+      </footer>
+    </article>
+  </main>
+
+  <script>
+    const sheets = Array.from(document.querySelectorAll(".sheet"));
+    let page = 0;
+
+    function show(next) {
+      page = Math.max(0, Math.min(sheets.length - 1, next));
+      sheets.forEach((sheet, index) => {
+        const on = index === page;
+        sheet.classList.toggle("active", on);
+        sheet.hidden = !on;
+      });
+      const id = sheets[page].id;
+      if (location.hash !== "#" + id) {
+        history.replaceState(null, "", "#" + id);
+      }
+    }
+
+    document.querySelectorAll("[data-dir]").forEach((button) => {
+      button.addEventListener("click", () => show(page + Number(button.dataset.dir)));
+    });
+
+    document.querySelectorAll("[data-go]").forEach((button) => {
+      button.addEventListener("click", () => show(Number(button.dataset.go)));
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowRight") show(page + 1);
+      if (event.key === "ArrowLeft") show(page - 1);
+    });
+
+    let touchX = null;
+    document.addEventListener("touchstart", (event) => {
+      touchX = event.changedTouches[0].clientX;
+    }, { passive: true });
+    document.addEventListener("touchend", (event) => {
+      if (touchX == null) return;
+      const delta = event.changedTouches[0].clientX - touchX;
+      if (delta < -50) show(page + 1);
+      if (delta > 50) show(page - 1);
+      touchX = null;
+    }, { passive: true });
+
+    function showHash() {
+      const start = sheets.findIndex((sheet) => sheet.id === location.hash.slice(1));
+      if (start >= 0) show(start);
+    }
+
+    window.addEventListener("hashchange", showHash);
+    showHash();
+    if (location.hash.length < 2) show(0);
+  </script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+# Chrome/KDP export caches (muito pesados)
+kdp/chrome-*/
+kdp/**/Cache/
+kdp/**/GPUCache/
+kdp/**/Code Cache/
+kdp/**/ShaderCache/
+kdp/**/GrShaderCache/
+kdp/**/GraphiteDawnCache/
+kdp/**/DawnGraphiteCache/
+kdp/**/DawnWebGPUCache/
+
+# Sistema / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+.vscode/
+.idea/
+*.log
+.env
+.env.*
+.vercel

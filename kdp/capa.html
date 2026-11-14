@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Capa KDP</title>
+  <style>
+    @page { size: 17.524744in 8.75in; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; background: #fff; }
+    .wrap {
+      width: 17.524744in;
+      height: 8.75in;
+      display: flex;
+      overflow: hidden;
+      page-break-after: avoid;
+    }
+    .back {
+      width: 8.625in;
+      height: 8.75in;
+      background: #234628;
+      color: #fffaf4;
+      position: relative;
+      padding: 0.7in 0.55in 1.9in 0.55in;
+      font-family: Georgia, "Palatino Linotype", serif;
+    }
+    .back h2 {
+      margin: 0.35in 0 0;
+      font-size: 22pt;
+      line-height: 1.05;
+      font-weight: 700;
+    }
+    .back .sub {
+      margin: 0.16in 0 0;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 12pt;
+      font-weight: 600;
+      line-height: 1.35;
+      max-width: 16em;
+    }
+    .back blockquote {
+      margin: 0.35in 0 0;
+      font-style: italic;
+      font-size: 14pt;
+      line-height: 1.4;
+      max-width: 18em;
+    }
+    .barcode {
+      position: absolute;
+      left: 6.25in;
+      bottom: 0.5in;
+      width: 2in;
+      height: 1.2in;
+      background: #fff;
+    }
+    .spine {
+      width: 0.274744in;
+      height: 8.75in;
+      background: #1b3a22;
+    }
+    .front {
+      width: 8.625in;
+      height: 8.75in;
+      position: relative;
+      background: #e7f3cc;
+    }
+    .front img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 40%;
+      display: block;
+    }
+    .title {
+      position: absolute;
+      left: 0.45in;
+      right: 0.5in;
+      top: 0.42in;
+      text-align: center;
+      background: rgba(255, 250, 244, 0.92);
+      border-radius: 14px;
+      padding: 0.16in 0.18in 0.18in;
+      color: #234628;
+    }
+    .title p { margin: 0; }
+    .title h1 {
+      margin: 0.04in 0 0;
+      font-family: Georgia, "Palatino Linotype", serif;
+      font-size: 28pt;
+      line-height: 0.98;
+    }
+    .title .sub {
+      margin-top: 0.08in;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 11pt;
+      font-weight: 700;
+      color: #6d4c3d;
+    }
+    .title .name {
+      margin-top: 0.06in;
+      font-family: Georgia, serif;
+      font-style: italic;
+      font-size: 13pt;
+      color: #c24b43;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="back">
+      <p class="heart" style="margin:0;font-size:20pt;color:#f0c14a;">♥</p>
+      <h2>Luna e o Quintal das Histórias</h2>
+      <p class="sub">Um livro para pequenos corações que amam Jesus e bichinhos.</p>
+      <blockquote>Para Luna Begui, que transforma cada dia em uma pequena pregação de amor.</blockquote>
+      <div class="barcode"></div>
+    </section>
+    <section class="spine"></section>
+    <section class="front">
+      <img src="../ilustracoes/luna-pagina-1.jpg" alt="">
+      <div class="title">
+        <p style="font-size:16pt;">🌼</p>
+        <h1>Luna e o Quintal das Histórias</h1>
+        <p class="sub">Um livro para pequenos corações que amam Jesus e bichinhos</p>
+        <p class="name">Luna Begui</p>
+      </div>
+    </section>
+  </div>
+</body>
+</html>
