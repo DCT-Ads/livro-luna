@@ -20,3 +20,9 @@ Desktop.ini
 .env.*
 .vercel
 .env*
+
+# Dependências locais
+node_modules/
+package-lock.json
+*.tgz
+
