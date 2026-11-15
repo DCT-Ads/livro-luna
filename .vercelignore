@@ -1,7 +1,10 @@
-kdp/chrome-*/
-kdp/**/Cache/
-kdp/**/GPUCache/
-kdp/**/Code Cache/
-kdp/**/ShaderCache/
-**/.git/
-**/*.log
+﻿node_modules
+package-lock.json
+*.tgz
+_pdf-20261114-1632
+_pdf-click
+_pdf-deploy
+kdp/chrome-*
+kdp/**/Cache
+kdp/**/GPUCache
+.git

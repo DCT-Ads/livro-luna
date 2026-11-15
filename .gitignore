@@ -26,3 +26,11 @@ node_modules/
 package-lock.json
 *.tgz
 
+
+# Deploy temporário / PDFs de staging
+_deploy-qr-fix/
+_pdf-20261114-1632/
+_pdf-click/
+_pdf-deploy/
+**/.env.local
+
