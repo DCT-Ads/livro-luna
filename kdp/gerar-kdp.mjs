@@ -35,7 +35,16 @@ function field(block, className) {
     .trim();
 }
 
-function imageSrc(block) {
+function imageSrc(block, preferClass) {
+  if (preferClass) {
+    const scoped = block.match(
+      new RegExp(`<(?:figure|div)[^>]*class="[^"]*${preferClass}[^"]*"[^>]*>[\\s\\S]*?src="(ilustracoes\\/[^\"]+)"`)
+    );
+    if (scoped) return scoped[1].replace(/\//g, "\\");
+  }
+  // Prefer story/coloring art over QR thumbnails
+  const art = block.match(/src="(ilustracoes\/luna-(?:cena|colorir|pagina)-[^"]+)"/);
+  if (art) return art[1].replace(/\//g, "\\");
   const match = block.match(/src="(ilustracoes\/[^"]+)"/);
   if (!match) throw new Error("Ilustração ausente");
   return match[1].replace(/\//g, "\\");
@@ -67,20 +76,56 @@ for (let n = 1; n <= 38; n += 1) {
     poem: field(story, "poem"),
     fala: field(story, "fala"),
     fim: /<p class="kicker">Fim<\/p>|<p class="kicker">FIM<\/p>/i.test(story),
-    storyImage: imageSrc(story),
-    colorImage: imageSrc(coloring)
+    storyImage: imageSrc(story, "story-art"),
+    colorImage: imageSrc(coloring, "coloring-art")
   });
+}
+
+const musicByPage = {
+  9: {
+    qr: "ilustracoes/qr-anunciacao.png",
+    title: "Anunciação",
+    artist: "Mariana Nolasco",
+    note: "Quando ela canta “tu vens”, só consigo imaginar o Senhor Jesus vindo nos buscar desse mundo tão cruel."
+  },
+  34: {
+    qr: "ilustracoes/qr-curado-para-curar.png",
+    title: "Curado Para Curar",
+    artist: "Nayara Rosa",
+    note: ""
+  },
+  38: {
+    qr: "ilustracoes/qr-cordas-de-amor.png",
+    title: "Cordas de Amor",
+    artist: "Nayara Rosa",
+    note: "JESUS ESTA VOLTANDO"
+  }
+};
+
+function musicBlock(scene) {
+  const m = musicByPage[scene.n];
+  if (!m) return "";
+  const note = m.note
+    ? `<p class="music-note${scene.n === 38 ? " shout" : ""}">${escapeHtml(m.note)}</p>`
+    : "";
+  return `<div class="qr-print">
+      <img src="../${m.qr.replace(/\//g, "\\")}" alt="">
+      <p class="qr-caption"><strong>${escapeHtml(m.title)}</strong><br>${escapeHtml(m.artist)} · YouTube</p>
+    </div>
+    ${note}`;
 }
 
 function storyPage(scene) {
   const count = lines(scene.poem).length + lines(scene.fala).length;
-  const dense = count > 10 ? " dense" : "";
+  const hasMusic = Boolean(musicByPage[scene.n]);
+  const dense = count > 10 || hasMusic ? " dense" : "";
   return `<section class="page story${dense}">
     <img src="../${scene.storyImage}" alt="">
     <div class="text">
       <p class="kicker">Página ${scene.n}</p>
       <p class="poem">${verse(scene.poem)}</p>
       <p class="fala">${verse(scene.fala)}</p>
+      ${musicBlock(scene)}
       ${scene.fim ? '<p class="fim">Fim</p>' : ""}
     </div>
   </section>`;
@@ -136,7 +181,7 @@ const interior = `<!DOCTYPE html>
       object-fit: cover;
       object-position: center 32%;
     }
-    .story.dense img { height: 4.45in; }
+    .story.dense img { height: 4.15in; }
     .text {
       padding: 0.16in 0.55in 0.5in 0.42in;
       color: #3e2a22;
@@ -178,6 +223,51 @@ const interior = `<!DOCTYPE html>
       text-transform: uppercase;
       color: #c48a22;
     }
+    .qr-print {
+      display: flex;
+      align-items: center;
+      gap: 0.12in;
+      margin: 0.1in 0 0;
+      padding: 0.08in 0.1in;
+      border: 1pt solid rgba(211, 154, 58, 0.4);
+      border-radius: 0.1in;
+      background: #fff8ef;
+    }
+    .qr-print img {
+      width: 0.85in !important;
+      height: 0.85in !important;
+      object-fit: contain !important;
+      flex: 0 0 auto;
+    }
+    .qr-caption {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 9.5pt;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #3e2a22;
+    }
+    .qr-caption strong {
+      color: #234628;
+      font-size: 11pt;
+    }
+    .music-note {
+      margin: 0.08in 0 0;
+      font-family: Georgia, "Palatino Linotype", serif;
+      font-style: italic;
+      font-size: 9.5pt;
+      line-height: 1.3;
+      color: #6d4c3d;
+    }
+    .music-note.shout {
+      font-style: normal;
+      font-family: "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: 12pt;
+      letter-spacing: 0.04em;
+      color: #c24b43;
+    }
+    .story.dense .poem, .story.dense .fala { font-size: 11.5pt; line-height: 1.22; }
     .dedication {
       display: flex;
       flex-direction: column;
@@ -334,6 +424,13 @@ const cover = `<!DOCTYPE html>
       font-size: 13pt;
       color: #c24b43;
     }
+    .title .edition {
+      margin-top: 0.05in;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 10pt;
+      font-weight: 700;
+      color: #6d4c3d;
+    }
   </style>
 </head>
 <body>
@@ -342,6 +439,7 @@ const cover = `<!DOCTYPE html>
       <p class="heart" style="margin:0;font-size:20pt;color:#f0c14a;">♥</p>
       <h2>Luna e o Quintal das Histórias</h2>
       <p class="sub">Um livro para pequenos corações que amam Jesus e bichinhos.</p>
+      <p class="sub" style="margin-top:0.12in">Autora: Robertta Loryn Begui · 1ª edição</p>
       <blockquote>${escapeHtml(dedication)}</blockquote>
       <div class="barcode"></div>
     </section>
@@ -352,7 +450,8 @@ const cover = `<!DOCTYPE html>
         <p style="font-size:16pt;">🌼</p>
         <h1>Luna e o Quintal das Histórias</h1>
         <p class="sub">Um livro para pequenos corações que amam Jesus e bichinhos</p>
-        <p class="name">Luna Begui</p>
+        <p class="name">Robertta Loryn Begui</p>
+        <p class="edition">1ª edição</p>
       </div>
     </section>
   </div>
