@@ -98,7 +98,8 @@ const musicByPage = {
     qr: "ilustracoes/qr-cordas-de-amor.png",
     title: "Cordas de Amor",
     artist: "Nayara Rosa",
-    note: "JESUS ESTA VOLTANDO"
+    note: "JESUS ESTA VOLTANDO",
+    author: "Robertta Loryn Begui"
   }
 };
 
@@ -108,18 +109,24 @@ function musicBlock(scene) {
   const note = m.note
     ? `<p class="music-note${scene.n === 38 ? " shout" : ""}">${escapeHtml(m.note)}</p>`
     : "";
+  const author = m.author
+    ? `<p class="music-author">${escapeHtml(m.author)}</p>`
+    : "";
   return `<div class="qr-print">
       <img src="../${m.qr.replace(/\//g, "\\")}" alt="">
       <p class="qr-caption"><strong>${escapeHtml(m.title)}</strong><br>${escapeHtml(m.artist)} · YouTube</p>
     </div>
-    ${note}`;
+    ${note}
+    ${author}`;
 }
 
 function storyPage(scene) {
   const count = lines(scene.poem).length + lines(scene.fala).length;
   const hasMusic = Boolean(musicByPage[scene.n]);
   const dense = count > 10 || hasMusic ? " dense" : "";
-  return `<section class="page story${dense}">
+  // Página 38: cena alta (céu + ceia) — contain para não cortar Jesus nem as cadeiras
+  const fitClass = scene.n === 38 ? " fit-contain" : "";
+  return `<section class="page story${dense}${fitClass}">
     <img src="../${scene.storyImage}" alt="">
     <div class="text">
       <p class="kicker">Página ${scene.n}</p>
@@ -182,6 +189,16 @@ const interior = `<!DOCTYPE html>
       object-position: center 32%;
     }
     .story.dense img { height: 4.15in; }
+    .story.fit-contain {
+      background: #fff8ef;
+    }
+    .story.fit-contain img {
+      height: 4.35in;
+      object-fit: contain;
+      object-position: center center;
+      background: #fff8ef;
+    }
+    .story.dense.fit-contain img { height: 3.85in; }
     .text {
       padding: 0.16in 0.55in 0.5in 0.42in;
       color: #3e2a22;
@@ -266,6 +283,14 @@ const interior = `<!DOCTYPE html>
       font-size: 12pt;
       letter-spacing: 0.04em;
       color: #c24b43;
+    }
+    .music-author {
+      margin: 0.04in 0 0;
+      font-family: Georgia, "Palatino Linotype", serif;
+      font-style: italic;
+      font-size: 11pt;
+      font-weight: 700;
+      color: #3e2a22;
     }
     .story.dense .poem, .story.dense .fala { font-size: 11.5pt; line-height: 1.22; }
     .dedication {
@@ -439,7 +464,7 @@ const cover = `<!DOCTYPE html>
       <p class="heart" style="margin:0;font-size:20pt;color:#f0c14a;">♥</p>
       <h2>Luna e o Quintal das Histórias</h2>
       <p class="sub">Um livro para pequenos corações que amam Jesus e bichinhos.</p>
-      <p class="sub" style="margin-top:0.12in">Autora: Robertta Loryn Begui · 1ª edição</p>
+      <p class="sub" style="margin-top:0.12in">1ª edição</p>
       <blockquote>${escapeHtml(dedication)}</blockquote>
       <div class="barcode"></div>
     </section>
@@ -450,7 +475,6 @@ const cover = `<!DOCTYPE html>
         <p style="font-size:16pt;">🌼</p>
         <h1>Luna e o Quintal das Histórias</h1>
         <p class="sub">Um livro para pequenos corações que amam Jesus e bichinhos</p>
-        <p class="name">Robertta Loryn Begui</p>
         <p class="edition">1ª edição</p>
       </div>
     </section>
