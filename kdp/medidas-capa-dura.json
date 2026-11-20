@@ -1,0 +1,38 @@
+{
+  "format": "hardcover / capa dura",
+  "trimInches": [
+    8.25,
+    11
+  ],
+  "interiorWithBleedInches": [
+    8.375,
+    11.25
+  ],
+  "pages": 154,
+  "paper": "branco, cor standard/premium KDP",
+  "inchesPerPage": 0.002252,
+  "spineInches": 0.346808,
+  "wrapInches": 0.625,
+  "hingeInches": 0.375,
+  "coverWithBleedInches": [
+    19.096808,
+    12.5
+  ],
+  "imagePolicy": "object-fit:contain — imagens máximas sem cortar; QR compacto",
+  "files": [
+    {
+      "file": "miolo-luna-CAPA-DURA-8.25x11.pdf",
+      "pages": 154,
+      "width": 8.376666666666667,
+      "height": 11.25,
+      "bytes": 73508777
+    },
+    {
+      "file": "capa-luna-CAPA-DURA-8.25x11.pdf",
+      "pages": 1,
+      "width": 19.09666611111111,
+      "height": 12.5,
+      "bytes": 1255556
+    }
+  ]
+}

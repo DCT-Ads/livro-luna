@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Luna e o Quintal das Histórias — miolo capa dura 8.25x11</title>
+  <style>
+    @page { size: 8.375in 11.25in; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; background: #fff; }
+    .page {
+      width: 8.375in;
+      height: 11.25in;
+      overflow: hidden;
+      background: #fff;
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+    }
+    .page:last-child { page-break-after: auto; break-after: auto; }
+    /* Imagem o maior possível, SEM cortar (contain) */
+    .story.fit-contain {
+      background: #fff8ef;
+    }
+    .story img {
+      display: block;
+      width: 8.375in;
+      height: 7.1in;
+      object-fit: contain;
+      object-position: center center;
+      background: #fff8ef;
+    }
+    .story.dense img { height: 6.6in; }
+    .story.with-qr img { height: 6.35in; }
+    .story.dense.with-qr img { height: 5.95in; }
+    /* Página 38 final: imagem o mais ampla possível */
+    .story.final img,
+    .story.final.with-qr img,
+    .story.final.dense.with-qr img {
+      height: 7.35in;
+      width: 8.375in;
+      object-fit: contain;
+      object-position: center top;
+    }
+    .story.final .text {
+      padding: 0.04in 0.5in 0.22in 0.38in;
+    }
+    .story.final .poem { font-size: 10.5pt; line-height: 1.15; }
+    .story.final .fala { font-size: 9.5pt; line-height: 1.15; margin-top: 0.04in; }
+    .story.final .qr-print { margin-top: 0.04in; padding: 0.04in 0.06in; }
+    .story.final .music-note { margin-top: 0.04in; font-size: 11pt; }
+    .story.final .music-author { margin-top: 0.02in; font-size: 9.5pt; }
+    .story.final .fim { margin-top: 0.04in; }
+    .text {
+      padding: 0.1in 0.55in 0.35in 0.42in;
+      color: #3e2a22;
+      font-family: Georgia, "Palatino Linotype", serif;
+    }
+    .kicker {
+      margin: 0 0 0.06in;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #c48a22;
+    }
+    .poem {
+      margin: 0;
+      font-size: 13pt;
+      line-height: 1.26;
+    }
+    .dense .poem, .dense .fala { font-size: 11.5pt; line-height: 1.22; }
+    .with-qr .poem { font-size: 11.5pt; line-height: 1.2; }
+    .with-qr .fala { font-size: 10.5pt; line-height: 1.2; }
+    .fala {
+      margin: 0.08in 0 0;
+      padding: 0.06in 0.1in 0.06in 0.12in;
+      border-left: 3.5pt solid #c24b43;
+      background: #fff6f2;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 12pt;
+      font-weight: 600;
+      line-height: 1.26;
+      color: #234628;
+    }
+    .dense .fala { font-size: 11pt; }
+    .fim {
+      margin: 0.08in 0 0;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: #c48a22;
+    }
+    .qr-print {
+      display: flex;
+      align-items: center;
+      gap: 0.1in;
+      margin: 0.08in 0 0;
+      padding: 0.06in 0.08in;
+      border: 1pt solid rgba(211, 154, 58, 0.4);
+      border-radius: 0.1in;
+      background: #fff8ef;
+    }
+    .qr-print img {
+      width: 0.72in !important;
+      height: 0.72in !important;
+      object-fit: contain !important;
+      flex: 0 0 auto;
+    }
+    .qr-caption {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 9pt;
+      font-weight: 700;
+      line-height: 1.2;
+      color: #3e2a22;
+    }
+    .qr-caption strong {
+      color: #234628;
+      font-size: 10.5pt;
+    }
+    .music-note {
+      margin: 0.08in 0 0;
+      font-family: Georgia, "Palatino Linotype", serif;
+      font-style: italic;
+      font-size: 9.5pt;
+      line-height: 1.3;
+      color: #6d4c3d;
+    }
+    .music-note.shout {
+      font-style: normal;
+      font-family: "Segoe UI", sans-serif;
+      font-weight: 800;
+      font-size: 12pt;
+      letter-spacing: 0.04em;
+      color: #c24b43;
+    }
+    .music-author {
+      margin: 0.04in 0 0;
+      font-family: Georgia, "Palatino Linotype", serif;
+      font-style: italic;
+      font-size: 11pt;
+      font-weight: 700;
+      color: #3e2a22;
+    }
+    .story.dense .poem, .story.dense .fala { font-size: 11.5pt; line-height: 1.22; }
+    .dedication {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0.7in 0.85in 0.7in 0.7in;
+    }
+    .heart { margin: 0; font-size: 22pt; color: #c24b43; }
+    .dedication blockquote {
+      margin: 0.18in 0 0;
+      max-width: 5.8in;
+      font-family: Georgia, "Palatino Linotype", serif;
+      font-style: italic;
+      font-size: 18pt;
+      line-height: 1.4;
+      color: #234628;
+    }
+    .coloring img {
+      position: absolute;
+      left: 0.48in;
+      right: 0.58in;
+      top: 0.48in;
+      bottom: 0.62in;
+      width: calc(100% - 1.06in);
+      height: calc(100% - 1.1in);
+      object-fit: contain;
+      object-position: center;
+    }
+    .label {
+      position: absolute;
+      left: 0.42in;
+      right: 0.52in;
+      bottom: 0.4in;
+      margin: 0;
+      text-align: center;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 8pt;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #8a8178;
+    }
+  </style>
+</head>
+<body>
+<section class="page dedication">
+    <p class="heart">♥</p>
+    <p class="kicker">Dedicatória</p>
+    <blockquote>Para Luna Begui, que transforma cada dia em uma pequena pregação de amor. Com a Participação da Cantora Nayara Rosa.</blockquote>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-pagina-1.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 1</p>
+      <p class="poem">No quintal verdinho, cheio de sol,<br>mora uma menina com cachinho de anzol.<br>Luna é seu nome, sapeca e feliz,<br>quem a conhece, do amor nunca mais desdiz!</p>
+      <p class="fala">“Vem, Lilica! Vem, Amora!<br>Zé Pretinho, chegou a hora!<br>Mingau, meu lindo, vem sentar,<br>que a tia Luna vai contar!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-1.jpg" alt="">
+    <p class="label">Para colorir · 1</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-2.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 2</p>
+      <p class="poem">Lilica chegou correndo, “Au au!”<br>Rabinho feliz, nem um pouco devagar!<br>Amora se espreguiçou, “Miauu!” baixinho,<br>e sentou-se bem pertinho.</p>
+      <p class="fala">Zé Pretinho deu um salto — “Miau!”<br>Mingau se encolheu, manhoso e sem pressa,<br>Todos sentados na grama fresca,<br>prontos pra ouvir a história começa!</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-2.jpg" alt="">
+    <p class="label">Para colorir · 2</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-3.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 3</p>
+      <p class="poem">“Era uma vez,” Luna começou,<br>“um menininho que no cesto flutuou!<br>No rio, escondidinho, um bebê chorou,<br>e uma princesa o encontrou!”</p>
+      <p class="fala">Lilica latiu, “Au au! Que medo!”<br>Amora abriu os olhos bem redondos de segredo.<br>“Não tenham medo, meus amores,<br>Deus cuidava daquele bebê com muitos amores!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-3.jpg" alt="">
+    <p class="label">Para colorir · 3</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-4.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 4</p>
+      <p class="poem">Zé Pretinho perguntou, “Miau, e depois?”<br>Luna sorriu e respondeu: “Agora dois!<br>Um pastorzinho pequeno e bem corajoso,<br>enfrentou um gigante enorme e perigoso!”</p>
+      <p class="fala">“Com uma pedrinha e muita fé,<br>Davi venceu! Olha só, Zé!<br>Deus está sempre do nosso lado,<br>mesmo quando parece tudo errado!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-4.jpg" alt="">
+    <p class="label">Para colorir · 4</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-5.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 5</p>
+      <p class="poem">Mingau se aconchegou bem juntinho,<br>“Conta mais, Luna, devagarzinho!”<br>“Tinha um barco enorme, de madeira e amor,<br>onde cada bichinho tinha seu lugar e calor!”</p>
+      <p class="fala">“Leão, girafa, elefante e passarinho,<br>todos juntos, bem quietinho!<br>Noé cuidou de cada um com carinho,<br>assim como eu cuido de vocês, meu rebanhinho!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-5.jpg" alt="">
+    <p class="label">Para colorir · 5</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-6.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 6</p>
+      <p class="poem">De repente, Amora bocejou, “Miau...”<br>Luna riu e disse: “Calma, já vou!<br>Só mais uma, a mais linda de todas,<br>sobre um bebezinho numa manjedoura!”</p>
+      <p class="fala">“Nasceu numa noite de estrelas brilhantes,<br>rodeado de pastores e anjos cantantes!<br>Jesus veio ao mundo, pequeno e sagrado,<br>pra nos ensinar amor, meu rebanho adorado!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-6.jpg" alt="">
+    <p class="label">Para colorir · 6</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-7.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 7</p>
+      <p class="poem">“E sabem o que mais, meus amores?<br>Jesus ama vocês, de todas as cores!<br>Cachorrinha, gatinhos, cada um especial,<br>no coração de Deus, ninguém é igual!”</p>
+      <p class="fala">Lilica lambeu seu rosto, “Au au, obrigada!”<br>Zé Pretinho ronronou, feliz e animada.<br>Luna abraçou forte seu rebanhinho,<br>no quintal verde, cheio de carinho.</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-7.jpg" alt="">
+    <p class="label">Para colorir · 7</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-8.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 8</p>
+      <p class="poem">O sol se despedia, lá no horizonte,<br>Luna bocejou, pequena e sonolenta ponte.<br>“Amanhã eu conto mais, prometo, vejam vocês,<br>mais uma história, pra sempre eu contarei!”</p>
+      <p class="fala">Os bichinhos se aninharam, bem satisfeitos,<br>corações cheios de amor e afeto.<br>E assim terminava mais um dia feliz,<br>no quintal da Luna, onde o amor nunca finaliza.</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-8.jpg" alt="">
+    <p class="label">Para colorir · 8</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain with-qr">
+    <img src="../ilustracoes\luna-cena-9.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 9</p>
+      <p class="poem">De repente, um barulho estranho — “Blem! Blem!”<br>Vindo do mato, bem baixinho, quem vem?<br>Um bichinho verde, grandinho e assustado,<br>Era um Dino bebê, sozinho e cansado!</p>
+      <p class="fala">Lilica latiu, Amora bufou de susto,<br>Zé Pretinho se escondeu, sem ajuste!<br>Mas Luna sorriu e disse: “Calma, meu bem,<br>aqui no quintal, todos somos do bem!”</p>
+      <div class="qr-print">
+      <img src="../ilustracoes\qr-anunciacao.png" alt="">
+      <p class="qr-caption"><strong>Anunciação</strong><br>Mariana Nolasco · YouTube</p>
+    </div>
+    <p class="music-note">Quando ela canta “tu vens”, só consigo imaginar o Senhor Jesus vindo nos buscar desse mundo tão cruel.</p>
+    
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-9.jpg" alt="">
+    <p class="label">Para colorir · 9</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-10.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 10</p>
+      <p class="poem">“Qual seu nome, bichinho tão grandão?”<br>“Dino,” ele disse, com medo no coração.<br>“Eu fugi de casa, não quis obedecer,<br>e agora sozinho, não sei o que fazer!”</p>
+      <p class="fala">Luna pegou sua patinha com cuidado,<br>“Fica comigo, você errou ter fugido!<br>Mas se arrependeu, e prometeu não fazer mais isso,<br>tá tudo bem, calma.<br>Só precisa aprender a ouvir e confiar,<br>que os pais sempre cuidam, sem nunca faltar!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-10.jpg" alt="">
+    <p class="label">Para colorir · 10</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-11.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 11</p>
+      <p class="poem">Dino baixou a cabeça, soltou um suspiro,<br>“Vou mudar,” ele disse, “eu prometo e confirmo!<br>Vou ouvir meus pais, com amor e respeito,<br>Deus vai me ajudar, eu sinto no peito!”</p>
+      <p class="fala">Luna bateu palminhas, cheia de alegria,<br>“Agora sim, Dino, você tem uma família!<br>Vem sentar com a gente, no nosso cantinho,<br>e ouvir as histórias do meu coraçãozinho!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-11.jpg" alt="">
+    <p class="label">Para colorir · 11</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-12.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 12</p>
+      <p class="poem">Agora o rebanho tinha mais um amigo,<br>Dino sentado junto, bem quietinho.<br>Lilica, Amora, Zé, Mingau e o novo irmão,<br>todos esperando mais uma lição!</p>
+      <p class="fala">“Hoje a história,” Luna avisou sorrindo,<br>“é a mais linda de todas, vou já contando!<br>Sobre um bebezinho que o mundo mudou,<br>Jesus, o Filho de Deus, que por nós chegou!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-12.jpg" alt="">
+    <p class="label">Para colorir · 12</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-13.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 13</p>
+      <p class="poem">“Um anjo brilhante veio até Maria,<br>com uma notícia cheia de alegria!<br>‘Você vai ter um bebê muito especial,<br>o próprio Filho de Deus, sem igual!’”</p>
+      <p class="fala">Dino arregalou os olhos, “Nossa, que demais!”<br>Mingau se encolheu, ronronando em paz.<br>“Maria disse sim, com um coração sereno,<br>pronta pra viver aquele momento pequeno!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-13.jpg" alt="">
+    <p class="label">Para colorir · 13</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-14.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 14</p>
+      <p class="poem">“Numa noite fria, numa cidadezinha,<br>nasceu o bebê mais lindo, numa mangedourinha!<br>Sem berço de ouro, sem travesseiro de pluma,<br>só muito amor, debaixo da lua!”</p>
+      <p class="fala">As estrelas brilhavam, o céu sorria,<br>Era a noite mais linda que o mundo já tinha!<br>“Jesus,” Luna sussurrou com carinho,<br>“chegou pra ser nosso melhor amiguinho!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-14.jpg" alt="">
+    <p class="label">Para colorir · 14</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-15.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 15</p>
+      <p class="poem">“Pastores no campo, cuidando as ovelhinhas,<br>viram o céu se abrir, cheio de luzinhas!<br>Anjos cantando: ‘Gloria! Paz e amor!’<br>Nasceu o Salvador, o Rei de valor!”</p>
+      <p class="fala">Lilica latiu, “Au au, que alegria!”<br>Amora ronronou baixinho, cheia de magia.<br>“Eles correram pra ver o bebê encantado,<br>e encontraram tudo exatamente como foi anunciado!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-15.jpg" alt="">
+    <p class="label">Para colorir · 15</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-16.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 16</p>
+      <p class="poem">“Três sábios viram uma estrela brilhar,<br>e seguiram seu rumo, sem nunca parar!<br>Levaram presentes de ouro e perfume,<br>pro Rei pequenininho, cheio de lume!”</p>
+      <p class="fala">Zé Pretinho perguntou: “Miau, chegaram lá?”<br>“Chegaram sim, Zé, numa noite especial!<br>Encontraram Jesus, com Maria e José,<br>e se ajoelharam, cheios de fé!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-16.jpg" alt="">
+    <p class="label">Para colorir · 16</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-17.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 17</p>
+      <p class="poem">“Jesus cresceu forte, ajudando seu pai,<br>serrando madeira, martelo e vai-vai!<br>Obediente e sábio, trabalhava contente,<br>um exemplo pra toda a gente!”</p>
+      <p class="fala">Dino escutou atento, pensando um instante,<br>“Eu também vou ajudar, igual ao Jesus gigante!<br>Vou obedecer, trabalhar com alegria,<br>e aprender um pouco mais cada dia!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-17.jpg" alt="">
+    <p class="label">Para colorir · 17</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-18.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 18</p>
+      <p class="poem">“Um dia o mar ficou bravo e assustador,<br>ondas gigantes, trovão com terror!<br>Mas Jesus se levantou, calmo e sereno,<br>‘Paz!’ Ele disse, e tudo ficou pequeno!”</p>
+      <p class="fala">Mingau tremeu um pouquinho, “Miau, que medo!”<br>“Não precisa, Mingau, Jesus sempre no comando!<br>Ele cuida de nós, em cada tempestade,<br>nos dando paz, amor e segurança!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-18.jpg" alt="">
+    <p class="label">Para colorir · 18</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-19.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 19</p>
+      <p class="poem">“Uma multidão enorme, cansada e com fome,<br>só tinha cinco pães e dois peixinhos, imagine!<br>Jesus agradeceu, partiu com as mãos,<br>e alimentou milhares, sem faltar nem um grão!”</p>
+      <p class="fala">Lilica abanou o rabo, “Au au, que incrível!”<br>“É, Lilica, com Jesus tudo é possível!<br>Ele multiplica o pouco que a gente tem,<br>e cuida de cada um com muito bem!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-19.jpg" alt="">
+    <p class="label">Para colorir · 19</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-20.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 20</p>
+      <p class="poem">“Tinha um homenzinho que nunca tinha visto,<br>nem o céu azul, nem um sorriso bonito.<br>Jesus tocou seus olhos, com muito amor,<br>e ele viu o mundo, pela primeira vez, em cor!”</p>
+      <p class="fala">Amora abriu bem grande os olhinhos azuis,<br>“Miau, que coisa linda, cheia de luz!”<br>“Jesus cura corações, cura os olhos também,<br>Ele é tão poderoso, e nos ama tão bem!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-20.jpg" alt="">
+    <p class="label">Para colorir · 20</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-21.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 21</p>
+      <p class="poem">“As crianças corriam pra perto de Jesus,<br>mas alguns diziam: ‘Saiam, sem abusos!’<br>Jesus sorriu e disse, com voz tão mansa,<br>‘Deixem vir! Delas é o Reino e a esperança!’”</p>
+      <p class="fala">Dino se aproximou, feliz e sorridente,<br>“Então eu também posso, mesmo sendo diferente?”<br>“Claro, Dino! Jesus ama cada criaturinha,<br>seja menina, bichinho ou dinossaurinho!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-21.jpg" alt="">
+    <p class="label">Para colorir · 21</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-22.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 22</p>
+      <p class="poem">“Jesus entrou numa cidade chamada Jerusalém,<br>montado num jumentinho manso e tão além!<br>O povo gritava, agitando as mãozinhas,<br>jogando flores e folhas verdinhas!”</p>
+      <p class="fala">“Viva o Rei! Viva o Filho de Deus!” gritavam todos, erguendo os véus.<br>Dino bateu o rabo de alegria,<br>“Que festa linda, cheia de harmonia!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-22.jpg" alt="">
+    <p class="label">Para colorir · 22</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-23.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 23</p>
+      <p class="poem">“Jesus se sentou pra jantar com seus amigos,<br>uma mesa cheia de pão e carinho antigo.<br>‘Lembrem de mim,’ Ele disse com amor,<br>‘sempre que comerem, com todo o calor!’”</p>
+      <p class="fala">Mingau se aconchegou, ouvindo com cuidado,<br>“Que jantar tão especial, tão bem guardado!”<br>“É, Mingau, foi a última ceia dos amigos,<br>um momento de amor, mesmo com perigos.”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-23.jpg" alt="">
+    <p class="label">Para colorir · 23</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-24.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 24</p>
+      <p class="poem">“Naquela noite, Jesus foi orar num jardim,<br>sozinho e triste, perto de um jardim sem fim.<br>‘Pai, me ajuda,’ Ele pediu com tanto amor,<br>pronto a fazer tudo, mesmo com dor.”</p>
+      <p class="fala">Luna ficou quietinha, com olhos brilhando,<br>“Jesus foi tão forte, mesmo se sentindo mal.<br>Ele nos ensinou que podemos confiar,<br>mesmo quando é difícil, Deus vai nos guiar.”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-24.jpg" alt="">
+    <p class="label">Para colorir · 24</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-25.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 25</p>
+      <p class="poem">Luna ficou séria, com a vozinha mansa,<br>“Jesus foi levado, sem nenhuma chance.<br>Mas Ele aceitou, com amor tão grande,<br>pra salvar todo mundo, não importa onde!”</p>
+      <p class="fala">Dino baixou a cabecinha, triste e quieto,<br>“Isso me deixa com o coração apertadinho.”<br>“Eu sei, meu amor,” Luna disse com carinho,<br>“mas espera só, tem mais um finalzinho!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-25.jpg" alt="">
+    <p class="label">Para colorir · 25</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-26.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 26</p>
+      <p class="poem">“Colocaram Jesus num túmulo de pedra,<br>uma pedra bem grande, pesada e enorme.<br>Os amigos choraram, com o coração partido,<br>pensando que tudo tinha sido perdido.”</p>
+      <p class="fala">Amora deitou a cabeça, triste e manhosa,<br>“Miau, que tristeza, isso dói, isso pesa.”<br>“Espera, Amora,” Luna sussurrou baixinho,<br>“a história não acabou, tem mais um caminho!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-26.jpg" alt="">
+    <p class="label">Para colorir · 26</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-27.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 27</p>
+      <p class="poem">No terceiro dia, de manhãzinha cedo,<br>a pedra rolou! Não tinha mais medo!<br>Um anjo brilhante disse: “Não chorem mais,<br>Jesus ressuscitou! Ele está vivo, rapaz!”</p>
+      <p class="fala">Lilica saltou, “Au au, que alegria!”<br>Zé Pretinho rodopiou, maravilhado!<br>“Jesus venceu a morte, pra sempre e além,<br>porque Ele nos ama, e isso nunca tem fim!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-27.jpg" alt="">
+    <p class="label">Para colorir · 27</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-28.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 28</p>
+      <p class="poem">Jesus apareceu, vivo e sorridente,<br>abraçou seus amigos, feliz e contente!<br>“Eu estarei com vocês, sempre, de verdade,<br>cuidando de todos, com muita saudade!”</p>
+      <p class="fala">Mingau ronronou, Dino bateu o rabão,<br>“Que história mais linda, direto do coração!”<br>Luna abraçou forte seu rebanhinho inteiro,<br>“Jesus está vivo! Esse é o final mais verdadeiro!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-28.jpg" alt="">
+    <p class="label">Para colorir · 28</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-29.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 29</p>
+      <p class="poem">Dino se levantou, com o coração cheio,<br>“Vou contar pra floresta, sem nenhum receio!<br>Vou ser obediente, gentil e amoroso,<br>e falar de Jesus, pra todos, orgulhoso!”</p>
+      <p class="fala">Luna sorriu, abraçando seu novo irmão,<br>“Agora o rebanho tem mais um coração!<br>Lilica, Amora, Zé, Mingau e você, Dino,<br>somos uma família, desse jeitinho fofinho!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-29.jpg" alt="">
+    <p class="label">Para colorir · 29</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-30.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 30</p>
+      <p class="poem">O sol se despedia, lá no horizonte,<br>Luna bocejou, pequena e sonolenta ponte.<br>Seis amiguinhos agora, cheios de amor,<br>dormindo juntinhos, sem nenhuma dor.</p>
+      <p class="fala">“Amanhã eu conto mais, prometo, vejam vocês,<br>mais uma história, pra sempre eu contarei!”<br>E assim terminava mais um dia feliz,<br>no quintal da Luna, onde o amor nunca finaliza.</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-30.jpg" alt="">
+    <p class="label">Para colorir · 30</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-31.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 31</p>
+      <p class="poem">Depois de um dia cheio de aventura e amor,<br>Luna bocejou, cansadinha, com todo o fervor.<br>Lilica, Zé Pretinho, Amora e Mingau também,<br>se aconchegaram juntinhos, em paz, sem ninguém.</p>
+      <p class="fala">A lua entrou pela janela, macia e clarinha,<br>e o sono chegou, doce como uma cantiga.<br>No quintal das histórias, o silêncio embalar,<br>a turminha dormiu, pronta pra sonhar.</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-31.jpg" alt="">
+    <p class="label">Para colorir · 31</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-32.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 32</p>
+      <p class="poem">Luna acordou com o sol a brilhar,<br>mas algo diferente ia acontecer, vai notar.<br>Jesus, o Ressuscitado, precisava subir,<br>voltar pro Pai, no céu, e por lá residir.</p>
+      <p class="fala">Amora chorou, Mingau fungou também,<br>“Ele vai embora, mas volta, meu bem!”<br>Lilica lambeu a mãozinha da Luna, com carinho,<br>e Zé Pretinho miou baixinho: “Confia, pequenininho.”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-32.jpg" alt="">
+    <p class="label">Para colorir · 32</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-33.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 33</p>
+      <p class="poem">De repente, no quintal, uma vozinha soou:<br>“Luna, minha irmã!” — e Nayara Rosa chegou!<br>Ariél vinha sorrindo, com Ellóa no colo,<br>e Matheus, o irmãozinho, trouxe um abraço fofo.</p>
+      <p class="fala">Luna correu feliz, de braços bem abertos,<br>a turminha lateu, miou, saltando entre os afetos.<br>“Viemos consolar, com carinho e canção,<br>porque a família chega e aquece o coração!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-33.jpg" alt="">
+    <p class="label">Para colorir · 33</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain with-qr">
+    <img src="../ilustracoes\luna-cena-34.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 34</p>
+      <p class="poem">Nayara Rosa cantou, voz doce e forte,<br>“Louvor Curado para Curar” — abrindo a porta!<br>As notas subiram, tocando o coração,<br>e a tristeza foi embora, dando lugar à canção.</p>
+      <p class="fala">Luna, Ariél, Ellóa, Matheus, Samuel, Gabriel e a turminha,<br>fecharam os olhos, sentindo a melodia divina.<br>O louvor curou a saudade, e os encheu da Presença de DEUS,<br>e o quintal inteiro brilhou, este louvor nasceu dos céus!</p>
+      <div class="qr-print">
+      <img src="../ilustracoes\qr-curado-para-curar.png" alt="">
+      <p class="qr-caption"><strong>Curado Para Curar</strong><br>Nayara Rosa · YouTube</p>
+    </div>
+    
+    
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-34.jpg" alt="">
+    <p class="label">Para colorir · 34</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-35.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 35</p>
+      <p class="poem">No meio da música, um abraço se formou:<br>Luna, Nayara, Ariél, Ellóa, Gabriel e Matheus — que amor!<br>Lilica, Zé Pretinho, Amora e Mingau no meio,<br>um laço de carinho, quentinho como um ninho.</p>
+      <p class="fala">Todos cantavam juntos, sorrindo sem medo,<br>o louvor curava, trazendo consolo e aconchego.<br>“Somos família”, sussurrou Luna, feliz,<br>“e o amor de Jesus nunca deixa a gente sozinho, nunca!”</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-35.jpg" alt="">
+    <p class="label">Para colorir · 35</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-36.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 36</p>
+      <p class="poem">De repente, do céu, dois anjinhos desceram,<br>Miguel, pequenino, e Gabriel vieram.<br>“Jesus subiu às nuvens, como vocês viram,<br>e ao lado de Deus Pai, num grande Trono branco, ELE se assentou”</p>
+      <p class="fala">Miguel, de só dois aninhos, parecendo um indiozinho<br>e Gabriel, de bata branca e auréola nos caminhos.<br>Todos olharam maravilhados, sem falar,<br>enquanto a luz dourada vinha do céu a brilhar.</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-36.jpg" alt="">
+    <p class="label">Para colorir · 36</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain">
+    <img src="../ilustracoes\luna-cena-37.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 37</p>
+      <p class="poem">“Ele foi preparar um lugar especial,<br>e um dia virá nos buscar, sem igual!<br>Fiquem em paz, com fé no coração,<br>Jesus vai voltar, essa é a promessa, então!”</p>
+      <p class="fala">Luna apertou a mão no peito, cheia de esperança,<br>Nayara, Ariél, Ellóa, Matheus, Gabriel e Samuca, na mesma dança.<br>Os anjinhos sorriram, a turminha também,<br>e a paz de Jesus abraçou cada um, amém!</p>
+      
+      
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-37.jpg" alt="">
+    <p class="label">Para colorir · 37</p>
+  </section>
+<section class="page blank"></section>
+<section class="page story fit-contain with-qr final">
+    <img src="../ilustracoes\luna-cena-38.jpg" alt="">
+    <div class="text">
+      <p class="kicker">Página 38</p>
+      <p class="poem">E eis que um dia, no céu, apareceu,<br>montado em cavalo branco, o próprio Rei dos Céus!<br>Cabelos de neve, bata vermelha a brilhar,<br>cinturão de ouro: “Rei dos Reis”, pra todos ler e amar.</p>
+      <p class="fala">Desceu sobre as nuvens, pousou no ar,<br>uma mesa branca e dourada, prontinha pra se armar.<br>Todos se sentaram, em festa e amor — Luna, Nayara, Ariél, Ellóa,<br>Matheus, Gabriel, anjos, Samuca e amigos FORTEENS — na Grande Ceia, ao lado do Senhor!</p>
+      <div class="qr-print">
+      <img src="../ilustracoes\qr-cordas-de-amor.png" alt="">
+      <p class="qr-caption"><strong>Cordas de Amor</strong><br>Nayara Rosa · YouTube</p>
+    </div>
+    <p class="music-note shout">JESUS ESTA VOLTANDO</p>
+    <p class="music-author">Robertta Loryn Begui</p>
+      <p class="fim">Fim</p>
+    </div>
+  </section>
+<section class="page blank"></section>
+<section class="page coloring">
+    <img src="../ilustracoes\luna-colorir-38.jpg" alt="">
+    <p class="label">Para colorir · 38</p>
+  </section>
+<section class="page blank"></section>
+</body>
+</html>

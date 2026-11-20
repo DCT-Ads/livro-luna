@@ -125,7 +125,7 @@ function storyPage(scene) {
   const hasMusic = Boolean(musicByPage[scene.n]);
   const dense = count > 10 || hasMusic ? " dense" : "";
   // Página 38: cena alta (céu + ceia) — contain para não cortar Jesus nem as cadeiras
-  const fitClass = scene.n === 38 ? " fit-contain" : "";
+  const fitClass = scene.n === 38 ? " fit-contain final" : "";
   return `<section class="page story${dense}${fitClass}">
     <img src="../${scene.storyImage}" alt="">
     <div class="text">
@@ -199,6 +199,15 @@ const interior = `<!DOCTYPE html>
       background: #fff8ef;
     }
     .story.dense.fit-contain img { height: 3.85in; }
+    .story.final img,
+    .story.final.fit-contain img,
+    .story.dense.final.fit-contain img {
+      height: 5.35in;
+      object-fit: contain;
+      object-position: center top;
+      background: #fff8ef;
+    }
+    .story.final .text { padding-top: 0.08in; padding-bottom: 0.28in; }
     .text {
       padding: 0.16in 0.55in 0.5in 0.42in;
       color: #3e2a22;

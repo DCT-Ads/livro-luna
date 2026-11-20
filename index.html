@@ -135,6 +135,26 @@
       display: block;
     }
 
+    /* Página 38: imagem final bem ampla */
+    .story-final.active {
+      grid-template-columns: 1.28fr 0.72fr;
+      align-items: stretch;
+    }
+    .story-art--wide {
+      background: #fff4df;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 0;
+    }
+    .story-art--wide img {
+      width: 100%;
+      height: 100%;
+      max-height: min(78vh, 920px);
+      object-fit: contain;
+      object-position: center center;
+    }
+
     .cover-foot,
     .story-foot {
       display: flex;
@@ -1493,7 +1513,7 @@
         </p>
         <p class="fala">
           Lilica saltou, “Au au, que alegria!”<br>
-          Zé Pretinho rodopiou, cheio de magia!<br>
+          Zé Pretinho rodopiou, maravilhado!<br>
           “Jesus venceu a morte, pra sempre e além,<br>
           porque Ele nos ama, e isso nunca tem fim!”
         </p>
@@ -1912,8 +1932,8 @@
       </footer>
     </article>
 
-    <article class="sheet story" id="pagina-38" aria-label="Página 38">
-      <figure class="story-art">
+    <article class="sheet story story-final" id="pagina-38" aria-label="Página 38">
+      <figure class="story-art story-art--wide">
         <img src="ilustracoes/luna-cena-38.jpg" alt="Jesus no cavalo branco desce sobre as nuvens; abaixo, a Grande Ceia com todos os personagens.">
       </figure>
       <div class="story-text">
