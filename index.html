@@ -132,27 +132,11 @@
     .story-art img {
       width: 100%;
       height: auto;
-      display: block;
-    }
-
-    /* Página 38: imagem final bem ampla */
-    .story-final.active {
-      grid-template-columns: 1.28fr 0.72fr;
-      align-items: stretch;
-    }
-    .story-art--wide {
-      background: #fff4df;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      min-height: 0;
-    }
-    .story-art--wide img {
-      width: 100%;
-      height: 100%;
-      max-height: min(78vh, 920px);
+      max-height: min(72vh, 820px);
       object-fit: contain;
-      object-position: center center;
+      object-position: center top;
+      display: block;
+      background: #fff8ef;
     }
 
     .cover-foot,
@@ -205,22 +189,27 @@
 
     button.ghost:hover { background: #eadfcb; }
 
+    /* Imagem GRANDE em cima, texto EMBAIXO (formato do Print 1) */
     .story.active {
-      grid-template-columns: 1.08fr 0.92fr;
-      grid-template-rows: auto auto;
-      align-items: center;
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto auto;
+      align-items: stretch;
     }
 
-    .story-art { grid-column: 1; grid-row: 1; }
+    .story-art {
+      grid-column: 1;
+      grid-row: 1;
+      background: #fff8ef;
+    }
 
     .story-text {
-      grid-column: 2;
-      grid-row: 1;
+      grid-column: 1;
+      grid-row: 2;
       min-width: 0;
-      padding: 32px 32px 28px 28px;
+      padding: 22px 28px 18px;
       display: flex;
       flex-direction: column;
-      justify-content: center;
+      justify-content: flex-start;
       background:
         linear-gradient(180deg, #fffdf9 0%, #fff6ec 100%);
     }
@@ -533,7 +522,7 @@
         border: 0;
       }
       .cover-foot, .story-foot, button { display: none !important; }
-      .story-art img, .cover-art img { max-height: 420px; }
+      .story-art img, .cover-art img { max-height: none; width: 100%; }
     }
   </style>
 </head>
@@ -545,7 +534,7 @@
         <h1>Luna e o Quintal das Histórias</h1>
         <p class="subtitle">Um livro para pequenos corações que amam Jesus e bichinhos</p>
         <p class="project-link" style="margin-top:4px">1ª edição</p>
-        <p class="project-link">Livro online: <a href="https://luna-jesus-esta-voltando.vercel.app" target="_blank" rel="noopener noreferrer">Luna-JESUS-ESTA-VOLTANDO</a></p>
+        <p class="project-link">Livro online: <a href="https://luna-jesus-esta-voltando.vercel.app" target="_blank" rel="noopener noreferrer">abrir o livro</a></p>
         <p class="project-link">Joguinho: <a href="https://aprenda-brincando-gold.vercel.app" target="_blank" rel="noopener noreferrer">Aprenda Brincando</a> · na <a href="#pagina-2">Página 2</a></p>
         <p class="project-link">Baixe o PDF: <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-miolo.pdf" target="_blank" rel="noopener noreferrer">miolo</a> · <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-capa.pdf" target="_blank" rel="noopener noreferrer">capa</a></p>
       </header>
@@ -2048,8 +2037,8 @@
       </footer>
     </article>
 
-    <article class="sheet story story-final" id="pagina-38" aria-label="Página 38">
-      <figure class="story-art story-art--wide">
+    <article class="sheet story" id="pagina-38" aria-label="Página 38">
+      <figure class="story-art">
         <img src="ilustracoes/luna-cena-38.jpg" alt="Jesus no cavalo branco desce sobre as nuvens; abaixo, a Grande Ceia com todos os personagens.">
       </figure>
       <div class="story-text">
@@ -2075,7 +2064,7 @@
         <p class="rodape-musica" style="font-style:normal;font-weight:800;color:var(--berry);font-size:1.05rem;max-width:none">JESUS ESTA VOLTANDO</p>
         <p class="rodape-musica" style="font-style:normal;font-weight:700;color:var(--ink-soft);font-size:0.98rem;margin-top:6px;max-width:none">Robertta Loryn Begui</p>
         <p class="kicker">FIM</p>
-        <p class="project-link" style="margin-top:14px">Livro online: <a href="https://luna-jesus-esta-voltando.vercel.app" target="_blank" rel="noopener noreferrer">Luna-JESUS-ESTA-VOLTANDO</a></p>
+        <p class="project-link" style="margin-top:14px">Livro online: <a href="https://luna-jesus-esta-voltando.vercel.app" target="_blank" rel="noopener noreferrer">abrir o livro</a></p>
         <p class="project-link">Joguinho: <a href="https://aprenda-brincando-gold.vercel.app" target="_blank" rel="noopener noreferrer">Aprenda Brincando</a></p>
         <p class="project-link">PDF: <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-miolo.pdf" target="_blank" rel="noopener noreferrer">miolo</a> · <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-capa.pdf" target="_blank" rel="noopener noreferrer">capa</a></p>
       </div>
