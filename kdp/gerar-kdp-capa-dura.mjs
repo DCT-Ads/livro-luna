@@ -408,6 +408,36 @@ const cover = `<!DOCTYPE html>
       line-height: 1.35;
       max-width: 16em;
     }
+    .back .jogo {
+      margin: 0.18in 0 0;
+      padding: 0.1in 0.12in;
+      border: 1pt solid rgba(240, 193, 74, 0.55);
+      border-radius: 0.1in;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 0.12in;
+      text-align: left;
+    }
+    .back .jogo img {
+      width: 0.85in;
+      height: 0.85in;
+      background: #fff;
+      border-radius: 0.06in;
+      flex: 0 0 auto;
+    }
+    .back .jogo p {
+      margin: 0;
+      font-family: "Segoe UI", sans-serif;
+      font-size: 9.5pt;
+      font-weight: 700;
+      line-height: 1.25;
+      color: #f4efe6;
+    }
+    .back .jogo strong {
+      color: #f0c14a;
+      font-size: 11pt;
+    }
     .back blockquote {
       margin: 0.35in 0 0;
       font-style: italic;
@@ -493,6 +523,10 @@ const cover = `<!DOCTYPE html>
       <p class="sub">Um livro para pequenos corações que amam Jesus e bichinhos.</p>
       <p class="sub" style="margin-top:0.12in">1ª edição</p>
       <blockquote>${escapeHtml(dedication)}</blockquote>
+      <div class="jogo">
+        <img src="../ilustracoes/qr-aprenda-brincando.png" alt="">
+        <p><strong>Joguinho · Aprenda Brincando</strong><br>Aponte a câmera do celular e brinque com a Luna!</p>
+      </div>
       <div class="barcode"></div>
     </section>
     <section class="spine"></section>
