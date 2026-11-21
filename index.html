@@ -57,45 +57,29 @@
     .sheet.active { display: grid; }
 
     .cover.active {
-      grid-template-rows: minmax(0, 1fr) auto;
+      grid-template-rows: auto minmax(0, 1fr) auto;
     }
 
-    /* Capa: imagem AMPLA de ponta a ponta, texto por cima (sem faixa branca) */
-    .cover-hero {
-      position: relative;
-      min-height: min(82vh, 920px);
-      background: #cfe3a8;
-    }
-
-    .cover-hero > img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center 32%;
-      display: block;
-    }
-
+    /* Abertura igual ao print: texto em cima, imagem AMPLA embaixo (sem texto no rosto) */
     .cover-head {
-      position: relative;
-      z-index: 1;
-      padding: 28px 28px 120px;
+      padding: 28px 28px 18px;
       text-align: center;
-      background: linear-gradient(
-        180deg,
-        rgba(255, 252, 246, 0.88) 0%,
-        rgba(255, 252, 246, 0.55) 42%,
-        rgba(255, 252, 246, 0) 100%
-      );
-      border-bottom: 0;
+      background: linear-gradient(180deg, #fffdf8 0%, #fff6ea 100%);
+      border-bottom: 1px solid rgba(211, 154, 58, 0.28);
     }
 
-    .cover-head h1,
-    .cover-head .subtitle,
-    .cover-head .heroine,
-    .cover-head .project-link {
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
+    .cover-art {
+      min-width: 0;
+      background: #cfe3a8;
+      line-height: 0;
+    }
+
+    .cover-art img {
+      width: 100%;
+      height: min(68vh, 760px);
+      object-fit: cover;
+      object-position: center 28%;
+      display: block;
     }
 
     .flower {
@@ -136,7 +120,6 @@
 
     .cover-head .heroine {
       color: #c45c68;
-      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
     }
 
     .project-link {
@@ -513,8 +496,8 @@
 
       .sheet { border-radius: 16px; }
 
-      .cover-hero { min-height: min(74vh, 720px); }
-      .cover-head { padding: 22px 18px 90px; }
+      .cover-head { padding: 22px 18px 14px; }
+      .cover-art img { height: min(56vh, 520px); }
 
       .story.active {
         grid-template-columns: 1fr;
@@ -555,28 +538,27 @@
         border: 0;
       }
       .cover-foot, .story-foot, button { display: none !important; }
-      .story-art img { max-height: none; width: 100%; height: auto; object-fit: contain; }
-      .cover-hero { min-height: 520px; }
+      .story-art img, .cover-art img { max-height: none; width: 100%; height: auto; object-fit: contain; }
     }
   </style>
 </head>
 <body>
   <main class="book" id="livro">
     <article class="sheet cover active" id="capa" aria-label="Abertura do livro">
-      <div class="cover-hero">
+      <header class="cover-head">
+        <p class="flower" aria-hidden="true">🌼</p>
+        <h1>Luna e o Quintal das Histórias</h1>
+        <p class="subtitle">Um livro para pequenos corações que amam Jesus e bichinhos</p>
+        <p class="heroine">Luna Begui</p>
+        <p class="project-link">Conheça também o <a href="https://aprenda-brincando-gold.vercel.app" target="_blank" rel="noopener noreferrer">Aprenda Brincando</a></p>
+        <p class="project-link">Baixe o PDF: <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-miolo.pdf" target="_blank" rel="noopener noreferrer">miolo</a> · <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-capa.pdf" target="_blank" rel="noopener noreferrer">capa</a></p>
+      </header>
+      <figure class="cover-art">
         <img
           src="ilustracoes/luna-pagina-1.jpg"
           alt="Luna, menina de vestido vermelho listrado e cabelos cacheados, de braços abertos no quintal verde, chamando a cachorrinha Lilica, a gata Amora, o gatinho Zé Pretinho e o gatinho Mingau."
         >
-        <header class="cover-head">
-          <p class="flower" aria-hidden="true">🌼</p>
-          <h1>Luna e o Quintal das Histórias</h1>
-          <p class="subtitle">Um livro para pequenos corações que amam Jesus e bichinhos</p>
-          <p class="heroine">Luna Begui</p>
-          <p class="project-link">Joguinho: <a href="https://aprenda-brincando-gold.vercel.app" target="_blank" rel="noopener noreferrer">Aprenda Brincando</a></p>
-          <p class="project-link">Baixe o PDF: <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-miolo.pdf" target="_blank" rel="noopener noreferrer">miolo</a> · <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-capa.pdf" target="_blank" rel="noopener noreferrer">capa</a></p>
-        </header>
-      </div>
+      </figure>
       <footer class="cover-foot">
         <p class="pager">Abertura</p>
         <button type="button" data-dir="1">Abrir o livro</button>
