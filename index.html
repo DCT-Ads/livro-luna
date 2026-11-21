@@ -57,15 +57,45 @@
     .sheet.active { display: grid; }
 
     .cover.active {
-      grid-template-rows: auto auto auto;
+      grid-template-rows: minmax(0, 1fr) auto;
+    }
+
+    /* Capa: imagem AMPLA de ponta a ponta, texto por cima (sem faixa branca) */
+    .cover-hero {
+      position: relative;
+      min-height: min(82vh, 920px);
+      background: #cfe3a8;
+    }
+
+    .cover-hero > img {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 32%;
+      display: block;
     }
 
     .cover-head {
-      padding: 28px 28px 18px;
+      position: relative;
+      z-index: 1;
+      padding: 28px 28px 120px;
       text-align: center;
-      background:
-        linear-gradient(180deg, #fffdf8 0%, #fff6ea 100%);
-      border-bottom: 1px solid rgba(211, 154, 58, 0.35);
+      background: linear-gradient(
+        180deg,
+        rgba(255, 252, 246, 0.88) 0%,
+        rgba(255, 252, 246, 0.55) 42%,
+        rgba(255, 252, 246, 0) 100%
+      );
+      border-bottom: 0;
+    }
+
+    .cover-head h1,
+    .cover-head .subtitle,
+    .cover-head .heroine,
+    .cover-head .project-link {
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.55);
     }
 
     .flower {
@@ -122,21 +152,17 @@
       color: var(--berry);
     }
 
-    .cover-art,
     .story-art {
-      background: #e7f3cc;
+      background: #cfe3a8;
       min-width: 0;
     }
 
-    .cover-art img,
     .story-art img {
       width: 100%;
-      height: auto;
-      max-height: min(72vh, 820px);
-      object-fit: contain;
-      object-position: center top;
+      height: min(70vh, 780px);
+      object-fit: cover;
+      object-position: center 28%;
       display: block;
-      background: #fff8ef;
     }
 
     .cover-foot,
@@ -482,7 +508,8 @@
 
       .sheet { border-radius: 16px; }
 
-      .cover-head { padding: 22px 18px 14px; }
+      .cover-hero { min-height: min(74vh, 720px); }
+      .cover-head { padding: 22px 18px 90px; }
 
       .story.active {
         grid-template-columns: 1fr;
@@ -490,6 +517,7 @@
       }
 
       .story-art { grid-column: 1; grid-row: auto; }
+      .story-art img { height: min(58vh, 520px); }
       .story-text { grid-column: 1; grid-row: auto; padding: 22px 18px 8px; }
 
       .poem { font-size: 1.2rem; }
@@ -522,28 +550,28 @@
         border: 0;
       }
       .cover-foot, .story-foot, button { display: none !important; }
-      .story-art img, .cover-art img { max-height: none; width: 100%; }
+      .story-art img { max-height: none; width: 100%; height: auto; object-fit: contain; }
+      .cover-hero { min-height: 520px; }
     }
   </style>
 </head>
 <body>
   <main class="book" id="livro">
     <article class="sheet cover active" id="capa" aria-label="Abertura do livro">
-      <header class="cover-head">
-        <p class="flower" aria-hidden="true">🌼</p>
-        <h1>Luna e o Quintal das Histórias</h1>
-        <p class="subtitle">Um livro para pequenos corações que amam Jesus e bichinhos</p>
-        <p class="project-link" style="margin-top:4px">1ª edição</p>
-        <p class="project-link">Livro online: <a href="https://luna-jesus-esta-voltando.vercel.app" target="_blank" rel="noopener noreferrer">abrir o livro</a></p>
-        <p class="project-link">Joguinho: <a href="https://aprenda-brincando-gold.vercel.app" target="_blank" rel="noopener noreferrer">Aprenda Brincando</a></p>
-        <p class="project-link">Baixe o PDF: <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-miolo.pdf" target="_blank" rel="noopener noreferrer">miolo</a> · <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-capa.pdf" target="_blank" rel="noopener noreferrer">capa</a></p>
-      </header>
-      <figure class="cover-art">
+      <div class="cover-hero">
         <img
           src="ilustracoes/luna-pagina-1.jpg"
           alt="Luna, menina de vestido vermelho listrado e cabelos cacheados, de braços abertos no quintal verde, chamando a cachorrinha Lilica, a gata Amora, o gatinho Zé Pretinho e o gatinho Mingau."
         >
-      </figure>
+        <header class="cover-head">
+          <p class="flower" aria-hidden="true">🌼</p>
+          <h1>Luna e o Quintal das Histórias</h1>
+          <p class="subtitle">Um livro para pequenos corações que amam Jesus e bichinhos</p>
+          <p class="heroine">Luna Begui</p>
+          <p class="project-link">Joguinho: <a href="https://aprenda-brincando-gold.vercel.app" target="_blank" rel="noopener noreferrer">Aprenda Brincando</a></p>
+          <p class="project-link">Baixe o PDF: <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-miolo.pdf" target="_blank" rel="noopener noreferrer">miolo</a> · <a href="https://luna-jesus-esta-voltando.vercel.app/LUNA-JESUS-ESTA-VOLTANDO-capa.pdf" target="_blank" rel="noopener noreferrer">capa</a></p>
+        </header>
+      </div>
       <footer class="cover-foot">
         <p class="pager">Abertura</p>
         <button type="button" data-dir="1">Abrir o livro</button>
